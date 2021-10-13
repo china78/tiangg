@@ -12,7 +12,7 @@
             trigger="click"
           >
             <el-button type="text">
-              布局<i class="el-icon-arrow-down el-icon--right"></i>
+              布局<i class="el-icon-arrow-down el-icon--right" />
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
@@ -24,8 +24,8 @@
                   style="color: #faad14"
                   class="el-icon-check"
                   v-show="currentLayout == view.type"
-                ></i
-              ></el-dropdown-item>
+                />
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <el-dropdown
@@ -34,7 +34,7 @@
             trigger="click"
           >
             <el-button type="text">
-              部件<i class="el-icon-arrow-down el-icon--right"></i>
+              部件<i class="el-icon-arrow-down el-icon--right" />
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
@@ -48,8 +48,8 @@
                   style="color: #faad14"
                   class="el-icon-check"
                   v-show="view.enable"
-                ></i
-              ></el-dropdown-item>
+                />
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <el-button type="text" style="margin-left: 20px" @click="revocation">
@@ -91,7 +91,7 @@
           </el-button> -->
         </div>
       </div>
-      <div class="top-bar-center-section"></div>
+      <div class="top-bar-center-section" />
       <div class="top-bar-right-section">
         <button
           @click="saveToServer"
@@ -106,7 +106,7 @@
           @click="publish"
           class="top-bar-btn top-bar-btn-publish top-bar-edit-mode-last-btn"
         >
-          <span class="label"> <i class="iconfont icon-publish"></i>发布</span>
+          <span class="label"> <i class="iconfont icon-publish"></i>发布 </span>
         </button>
       </div>
     </div>
@@ -256,21 +256,21 @@
 </style>
 
 <script type="text/ecmascript-6">
-import BaseComponent from "src/extend/BaseComponent";
-import Config from "src/config";
-import common from "../assets/js/common";
-import { mapState } from "vuex";
+import BaseComponent from 'src/extend/BaseComponent';
+import Config from 'src/config';
+import common from '../assets/js/common';
+import { mapState } from 'vuex';
 export default {
   mixins: [BaseComponent],
   components: {},
-  name: "header",
-  props: ["layout-data"],
+  name: 'header',
+  props: ['layout-data'],
   data() {
     return {
       setting: {
         open: true, // 网格开关
         line: true, // 智能参考线显示
-        color: "#409EFF", // 参考线颜色
+        color: '#409EFF', // 参考线颜色
         phoneline: true, // 手机框
         sorb: true, // 是否拖拽吸附
       },
@@ -287,7 +287,7 @@ export default {
         };
         return o;
       }, {});
-      if (!this.layoutData || typeof this.layoutData !== "object") return;
+      if (!this.layoutData || typeof this.layoutData !== 'object') return;
       let { layout, dialogs } = this.layoutData;
       loop(layout && layout.children);
       loop(dialogs);
@@ -295,8 +295,8 @@ export default {
         if (!list && !list.length) return;
         for (let data of list) {
           if (data.component) {
-            widgets[data.component]["enable"] = 1;
-            widgets[data.component]["required"] = !data.close;
+            widgets[data.component]['enable'] = 1;
+            widgets[data.component]['required'] = !data.close;
           }
           if (data.children && data.children.length) loop(data.children);
         }
@@ -312,12 +312,12 @@ export default {
   mounted() {},
   methods: {
     onSettingChange(v, k) {
-      this.$store.dispatch("SettingChange", { [k]: v });
+      this.$store.dispatch('SettingChange', { [k]: v });
     },
     onToolCommand(command) {
       switch (command) {
-        case "allToPx":
-          this.ema.fire("allToPx");
+        case 'allToPx':
+          this.ema.fire('allToPx');
           break;
       }
     },
@@ -328,7 +328,7 @@ export default {
       window.Editor.saveToServer();
     },
     selectLayout(layout) {
-      this.$store.dispatch("setCurrentLayout", layout);
+      this.$store.dispatch('setCurrentLayout', layout);
     },
     selectWidget(widgetName) {
       let widget = this.computedWidgets[widgetName];
@@ -340,16 +340,16 @@ export default {
               name: widget.desc,
               component: widget.name,
               style: {
-                width: "300px",
-                height: "400px",
-                left: "0px",
-                top: "50px",
+                width: '300px',
+                height: '400px',
+                left: '0px',
+                top: '50px',
               },
               close: !widget.required,
               pop: true,
             });
           })
-          .catch((e) => console.log("怂了"));
+          .catch((e) => console.log('怂了'));
       } else if (!widget.required) {
         // 移除部件
         this.$confirm(`确定要移除【${widget.desc}】部件么`)
@@ -358,7 +358,7 @@ export default {
             loop(layout && layout.children);
             loop(dialogs);
           })
-          .catch((e) => console.log("怂了"));
+          .catch((e) => console.log('怂了'));
       }
       function loop(list) {
         if (!list && !list.length) return;
@@ -378,36 +378,36 @@ export default {
       const open = () => {
         if (/desktop/i.test(this.Setting.phoneSize.name)) {
           const win = window.open(
-            `${Config.VIEW_PATH}${this.demoMode ? "__demomode" : key}?preview=1`
+            `${Config.VIEW_PATH}${this.demoMode ? '__demomode' : key}?preview=1`
           );
           return window.setTimeout(() => this.postData(win), 1000);
         }
-        this.openDialog({ name: "d-Preview", data: { key } });
+        this.openDialog({ name: 'd-Preview', data: { key } });
       };
       if (this.demoMode) open();
-      else this.ema.fire("pageInfo.save", true, open);
+      else this.ema.fire('pageInfo.save', true, open);
     },
     revocation: function () {
-      this.ema.fire("history.back");
+      this.ema.fire('history.back');
     },
     forward: function () {
-      this.ema.fire("history.forword");
+      this.ema.fire('history.forword');
     },
     save: function () {
-      this.ema.fire("pageInfo.save");
+      this.ema.fire('pageInfo.save');
     },
     psd: function () {
-      this.ema.fire("pageInfo.psd");
+      this.ema.fire('pageInfo.psd');
     },
     postData(previewWindow) {
-      const content = window.localStorage.getItem("EditorautoSave_tmp");
+      const content = window.localStorage.getItem('EditorautoSave_tmp');
       previewWindow.postMessage(
         {
-          type: "preview",
+          type: 'preview',
           content: content,
           canvas: this.$store.state.setting.phoneSize,
         },
-        "*"
+        '*'
       );
     },
   },

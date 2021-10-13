@@ -1,5 +1,5 @@
-import cloneDeep from 'lodash/cloneDeep'
-import common from '../assets/js/common'
+import cloneDeep from 'lodash/cloneDeep';
+import common from '../assets/js/common';
 
 /**
  *
@@ -8,25 +8,25 @@ import common from '../assets/js/common'
 export const initComponentList = ({
   commit
 }, node) => {
-  commit('initComponentList', node)
-}
+  commit('initComponentList', node);
+};
 export const SettingChange = ({
   commit
 }, node) => {
-  commit('SettingChange', node)
-}
+  commit('SettingChange', node);
+};
 
 export const setConfig = ({
   commit
 }, cfg) => {
-  commit('SET_CONFIG', cfg)
-}
+  commit('SET_CONFIG', cfg);
+};
 
 export const setUser = ({
   commit
 }, user) => {
-  commit('SET_USER', user)
-}
+  commit('SET_USER', user);
+};
 
 export const setCurrentPage = ({
   commit,
@@ -35,17 +35,17 @@ export const setCurrentPage = ({
   let info = Object.assign({}, state.pageInfo, {
     lastPage: state.pageInfo.currentPage,
     currentPage: page
-  })
-  commit('SET_PAGE_INFO', info)
-}
+  });
+  commit('SET_PAGE_INFO', info);
+};
 
 export const setPageInfo = ({
   commit,
   state
 }, pageInfo) => {
-  let info = Object.assign({}, state.pageInfo, pageInfo)
-  commit('SET_PAGE_INFO', info)
-}
+  let info = Object.assign({}, state.pageInfo, pageInfo);
+  commit('SET_PAGE_INFO', info);
+};
 
 export const dataHubSet = ({
   commit,
@@ -54,15 +54,15 @@ export const dataHubSet = ({
   path,
   val
 }) => {
-  let dataHub = cloneDeep(state.DataHub)
-  common.objectSetByPath(dataHub, path, val)
-  commit('DATA_HUB_SET', dataHub)
-}
+  let dataHub = cloneDeep(state.DataHub);
+  common.objectSetByPath(dataHub, path, val);
+  commit('DATA_HUB_SET', dataHub);
+};
 
-export const setCurrentLayout = ({commit}, type) =>  {
-  commit('SET_CURRENT_LAYOUT', type)
-}
+export const setCurrentLayout = ({ commit }, type) => {
+  commit('SET_CURRENT_LAYOUT', type);
+};
 
-export const setPageType = ({commit}, type) =>  {
-  commit('SET_PAGE_TYPE', type)
-}
+export const setPageType = ({ commit }, type) => {
+  commit('SET_PAGE_TYPE', type);
+};

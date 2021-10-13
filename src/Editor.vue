@@ -25,28 +25,28 @@
 </template>
 
 <script>
-import ContextMenu from "./components/ContextMenu";
-import cloneDeep from "lodash/cloneDeep";
-import BaseComponent from "src/extend/BaseComponent";
-import HistoryCache from "./extend/HistoryCache";
-import CDialogs from "src/components/Dialogs";
-import common from "./assets/js/common";
-import emptyPage from "./assets/data/empty.json";
-import Server from "./extend/Server";
-import UploadImage from "src/components/UploadImage";
-import UiDock from "./components/dock/index";
-import Bughd from "./components/bughd";
-import { getBaseNode } from "src/extend/Util";
-import Clipboard from "clipboard";
-import Tips from "./components/Tips";
-import MyHeader from "./components/Header";
-import { mapState } from "vuex";
-require("src/extend/filter");
-let config = require("./config/index.js");
+import ContextMenu from './components/ContextMenu';
+import cloneDeep from 'lodash/cloneDeep';
+import BaseComponent from 'src/extend/BaseComponent';
+import HistoryCache from './extend/HistoryCache';
+import CDialogs from 'src/components/Dialogs';
+import common from './assets/js/common';
+import emptyPage from './assets/data/empty.json';
+import Server from './extend/Server';
+import UploadImage from 'src/components/UploadImage';
+import UiDock from './components/dock/index';
+import Bughd from './components/bughd';
+import { getBaseNode } from 'src/extend/Util';
+import Clipboard from 'clipboard';
+import Tips from './components/Tips';
+import MyHeader from './components/Header';
+import { mapState } from 'vuex';
+require('src/extend/filter');
+let config = require('./config/index.js');
 
 export default {
   mixins: [BaseComponent],
-  name: "editor",
+  name: 'editor',
   components: {
     CDialogs,
     UploadImage,
@@ -63,20 +63,20 @@ export default {
       nodeInfo: null,
       pageInfo: null,
       keys: [],
-      clipboardContent: "",
-      imgSrc: "",
+      clipboardContent: '',
+      imgSrc: '',
       form: {
-        name: "",
-        desc: "",
+        name: '',
+        desc: '',
       },
       uploadObject: null,
     };
   },
-  props: ["active"],
+  props: ['active'],
   computed: {
     STORAGE_KEY() {
-      if (!this.keys || !this.keys.length) return "EditorautoSave_tmp";
-      return `EditorautoSave_${this.keys[0] || ""}_${this.keys[1] || ""}`;
+      if (!this.keys || !this.keys.length) return 'EditorautoSave_tmp';
+      return `EditorautoSave_${this.keys[0] || ''}_${this.keys[1] || ''}`;
     },
     ...mapState({
       currentLayout: (state) => state.viewOption.currentLayout,
@@ -85,7 +85,7 @@ export default {
   },
   watch: {
     nodeInfo: function (params) {
-      this.ema.fire("editor.nodeInfoChange", params);
+      this.ema.fire('editor.nodeInfoChange', params);
     },
     currentLayout: {
       handler(val, oldVal) {
@@ -106,27 +106,27 @@ export default {
   methods: {
     async layout(type) {
       if (!type) return;
-      const LAYOUT_SAVE_KEYS = "dockLayout_save";
-      const LAYOUT_TYPE_KEYS = "dockLayout_type";
+      const LAYOUT_SAVE_KEYS = 'dockLayout_save';
+      const LAYOUT_TYPE_KEYS = 'dockLayout_type';
       let layoutOptions;
       switch (type) {
-        case "custom":
+        case 'custom':
           try {
             layoutOptions = JSON.parse(
-              window.localStorage.getItem(LAYOUT_SAVE_KEYS) || "{}"
+              window.localStorage.getItem(LAYOUT_SAVE_KEYS) || '{}'
             );
           } catch (e) {}
           let baseLayoutOptions = await import(
             /* webpackMode: "eager" */
             /* webpackInclude: /\.json$/ */
-            `./assets/layout/${layoutOptions.name || "default"}.json`
+            `./assets/layout/${layoutOptions.name || 'default'}.json`
           );
           if (!(layoutOptions.version >= baseLayoutOptions.version)) {
             layoutOptions = cloneDeep(baseLayoutOptions);
           }
           break;
-        case "develop":
-        case "default":
+        case 'develop':
+        case 'default':
         default:
           layoutOptions = await import(
             /* webpackMode: "eager" */
@@ -136,7 +136,7 @@ export default {
           layoutOptions = cloneDeep(layoutOptions.default || layoutOptions);
       }
       this.layoutData = layoutOptions;
-      if (type == "custom") {
+      if (type == 'custom') {
         window.localStorage.setItem(
           LAYOUT_SAVE_KEYS,
           JSON.stringify(layoutOptions)
@@ -146,70 +146,70 @@ export default {
     },
     autoSave() {
       setInterval(() => {
-        this.ema.fire("pageInfo.save");
+        this.ema.fire('pageInfo.save');
       }, 1000 * 60 * 2);
     },
     canDrag() {},
     bindEvent() {
       // loading
       let $loading;
-      this.ema.bind("loading.show", () => {
+      this.ema.bind('loading.show', () => {
         $loading = this.$loading({
           lock: true,
-          text: "处理中，请稍等",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.7)",
+          text: '处理中，请稍等',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)',
         });
       });
-      this.ema.bind("loading.hide", () => {
+      this.ema.bind('loading.hide', () => {
         $loading && $loading.close();
       });
       var me = this;
       // 监控内容变化。做持久化
       this.$watch(
-        "nodeInfo",
+        'nodeInfo',
         (content) => {
           this.doSave(content);
         },
         { deep: true }
       );
       // 绑定历史回退事件
-      this.ema.bind("history.back", () => {
+      this.ema.bind('history.back', () => {
         var data = HistoryCache.getPrev();
         if (data) {
           me.nodeInfo = data;
-          me.ema.fire("nodeInfo.replace", me.nodeInfo);
+          me.ema.fire('nodeInfo.replace', me.nodeInfo);
           this.lock = true;
         } else {
-          this.$message({ type: "success", message: "没有历史记录" });
+          this.$message({ type: 'success', message: '没有历史记录' });
         }
       });
       // 绑定历史前进事件
-      this.ema.bind("history.forword", () => {
+      this.ema.bind('history.forword', () => {
         var data = HistoryCache.getNext();
         if (data) {
           me.nodeInfo = data;
-          me.ema.fire("nodeInfo.replace", me.nodeInfo);
+          me.ema.fire('nodeInfo.replace', me.nodeInfo);
           this.lock = true;
         } else {
-          this.$message({ type: "success", message: "没有历史记录" });
+          this.$message({ type: 'success', message: '没有历史记录' });
         }
       });
       // 绑定替换页面模板信息
-      this.ema.bind("selectPageTemplate", (content) => {
+      this.ema.bind('selectPageTemplate', (content) => {
         if (content) {
           Object.assign(this.nodeInfo, cloneDeep(content));
         }
       });
       // 保存页面
-      this.ema.bind("pageInfo.save", (fast, callback) => {
-        console.log("save---------", this.nodeInfo);
+      this.ema.bind('pageInfo.save', (fast, callback) => {
+        console.log('save---------', this.nodeInfo);
         this.doSave(this.nodeInfo, true);
         // if (this.demoMode) return this.$alert('您处在 demo 模式下，不能保存数据哦')
         this.savePage(fast, callback);
       });
       // 绑定组件点击添加组件到根元素
-      this.ema.bind("commponent.addOne", (menu) => {
+      this.ema.bind('commponent.addOne', (menu) => {
         var selectNode = this.nodeInfo;
         if (window.$vue && window.$vue.nodeInfo) {
           selectNode = window.$vue.nodeInfo;
@@ -220,43 +220,43 @@ export default {
         // 如果给page容器添加孩子元素。孩子元素需要占满全屏
         if (/pageContainer$/i.test(selectNode.type)) {
           nodeInfo.forceStyle = {
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            left: "0",
-            top: "0",
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            left: '0',
+            top: '0',
           };
         }
         if (!selectNode.child) {
-          this.$set(selectNode, "child", []);
+          this.$set(selectNode, 'child', []);
         }
         selectNode.child.push(nodeInfo);
       });
       // psd解析
       this.ema.bind(
-        "pageInfo.psd",
-        ({ asService = false, url = "", name = "", root } = {}) => {
-          console.log("pageInfo.psd", this.nodeInfo);
+        'pageInfo.psd',
+        ({ asService = false, url = '', name = '', root } = {}) => {
+          console.log('pageInfo.psd', this.nodeInfo);
           root = root || this.nodeInfo.id;
           this.openDialog({
-            name: "d-psd",
+            name: 'd-psd',
             data: {
               asService,
               psdUrl: url,
               psdName: name,
               root,
-              title: "psd上传",
+              title: 'psd上传',
             },
             methods: {
               changeNode: function (content, psdString) {
-                console.log("changeNode");
+                console.log('changeNode');
                 var nodes = null;
                 try {
                   nodes = JSON.parse(content);
                 } catch (error) {
-                  console.log("error", error);
+                  console.log('error', error);
                 }
-                if (!nodes) return console.log("图层解析失败");
+                if (!nodes) return console.log('图层解析失败');
                 const $root = window.$_nodecomponents[root];
                 $root.copyChild(nodes, { isJson: false, keepPos: 1 });
               },
@@ -266,30 +266,30 @@ export default {
       );
       // 复制事件
       window.Clipboard = Clipboard;
-      new Clipboard(this.$refs["clipboard"]);
-      this.ema.bind("clipboard.copy", (content, msg) => {
+      new Clipboard(this.$refs['clipboard']);
+      this.ema.bind('clipboard.copy', (content, msg) => {
         this.clipboardContent = String(content);
         window.setTimeout(() => {
-          this.$refs["clipboard"].click();
+          this.$refs['clipboard'].click();
           this.$message({
-            message: msg || "已复制",
-            type: "success",
+            message: msg || '已复制',
+            type: 'success',
           });
         });
       });
       // 截图服务
       this.ema.bind(
-        "screenshot",
+        'screenshot',
         (el, options, callback, needLoading = true) => {
           this.screenshotKey = Math.random().toFixed(10);
           let loading =
             needLoading &&
             this.$loading({
               lock: true,
-              text: "稍等片刻",
+              text: '稍等片刻',
             });
           setTimeout(() => {
-            this.$refs["screenshot"].upload(el, options, function () {
+            this.$refs['screenshot'].upload(el, options, function () {
               loading && loading.close();
               callback.apply(null, arguments);
               this.screenshotKey = null;
@@ -298,72 +298,72 @@ export default {
         }
       );
       // 按键
-      window.document.addEventListener("keydown", (e) => {
+      window.document.addEventListener('keydown', (e) => {
         var keyCode = e.keyCode;
         switch (keyCode) {
           case 38:
-            this.ema.fire("arrowup.down", e);
+            this.ema.fire('arrowup.down', e);
             break;
           case 40:
-            this.ema.fire("arrowdown.down", e);
+            this.ema.fire('arrowdown.down', e);
             break;
           case 37:
-            this.ema.fire("arrowleft.down", e);
+            this.ema.fire('arrowleft.down', e);
             break;
           case 39:
-            this.ema.fire("arrowright.down", e);
+            this.ema.fire('arrowright.down', e);
             break;
           case 8:
-            this.ema.fire("delete.down", e);
+            this.ema.fire('delete.down', e);
           case 46:
-            this.ema.fire("delete.down", e);
+            this.ema.fire('delete.down', e);
             break;
           case 18:
-            this.ema.fire("alt.down", e);
+            this.ema.fire('alt.down', e);
             break;
           case 16:
-            this.ema.fire("shift.down", e);
+            this.ema.fire('shift.down', e);
             break;
         }
       });
-      window.document.addEventListener("keyup", (e) => {
+      window.document.addEventListener('keyup', (e) => {
         var keyCode = e.keyCode;
         switch (keyCode) {
           case 8:
           case 46:
-            this.ema.fire("delete.up", e);
+            this.ema.fire('delete.up', e);
             break;
           case 18:
-            this.ema.fire("alt.up", e);
+            this.ema.fire('alt.up', e);
             break;
           case 16:
-            this.ema.fire("shift.up", e);
+            this.ema.fire('shift.up', e);
             break;
           case 70:
             if (e.ctrlKey && e.shiftKey) {
-              this.ema.fire("ctrl.shift.f.up", e);
+              this.ema.fire('ctrl.shift.f.up', e);
               e.preventDefault();
             }
             break;
         }
       });
-      this.ema.bind("alert.show", (value, fn) => {
-        this.$alert(value, "提示", {
-          confirmButtonText: "确定",
+      this.ema.bind('alert.show', (value, fn) => {
+        this.$alert(value, '提示', {
+          confirmButtonText: '确定',
           callback: (action) => {
-            typeof fn == "function" && fn();
+            typeof fn == 'function' && fn();
           },
         });
       });
-      window.EMA.bind("logout", () => {
+      window.EMA.bind('logout', () => {
         this.logout();
       });
       // 资源使用数据
-      this.ema.bind("resource.use", (id) => {
+      this.ema.bind('resource.use', (id) => {
         if (!(id > 0)) return;
         Server({
-          url: "editor/resources/addUseCount",
-          method: "post",
+          url: 'editor/resources/addUseCount',
+          method: 'post',
           needLoading: false,
           data: { id },
         })
@@ -374,7 +374,7 @@ export default {
     logout: function () {
       window.onbeforeunload = null;
       window.onunload = null;
-      window.sessionStorage.removeItem("session");
+      window.sessionStorage.removeItem('session');
       window.location.replace(`${config.ADMIN_PATH}login.html`);
     },
     /**
@@ -384,25 +384,25 @@ export default {
     loadPageInfo: function () {
       var urlInfo = common.parseURL(window.location.href);
       if (!urlInfo.params.key) {
-        if (process.env.NODE_ENV == "production") {
-          this.$alert("编辑页面缺少key");
+        if (process.env.NODE_ENV == 'production') {
+          this.$alert('编辑页面缺少key');
         } else {
           this.nodeInfo = cloneDeep(emptyPage);
-          this.$store.dispatch("SettingChange", { demoMode: true });
+          this.$store.dispatch('SettingChange', { demoMode: true });
         }
         return;
       }
-      var keys = (this.keys = urlInfo.params.key.split("/"));
+      var keys = (this.keys = urlInfo.params.key.split('/'));
       if (keys.length == 1) {
         keys[1] = keys[0];
       }
       Server({
-        url: "editor/pages/editor-detail",
-        method: "post", // default
+        url: 'editor/pages/editor-detail',
+        method: 'post', // default
         needLoading: false,
         data: {
           pageKey: keys[1],
-          scene: "edit",
+          scene: 'edit',
         },
       }).then((respond) => {
         var data = respond.data;
@@ -411,12 +411,12 @@ export default {
         try {
           info = JSON.parse(this.pageInfo.content) || emptyPage;
         } catch (error) {}
-        this.$store.dispatch("setPageType", this.pageInfo.type);
+        this.$store.dispatch('setPageType', this.pageInfo.type);
         if (info.canvas && info.canvas.width) {
-          this.$store.dispatch("SettingChange", { phoneSize: info.canvas });
+          this.$store.dispatch('SettingChange', { phoneSize: info.canvas });
         }
         this.nodeInfo = cloneDeep(info);
-        this.$store.dispatch("setUser", { userId: data.data && data.data.uid });
+        this.$store.dispatch('setUser', { userId: data.data && data.data.uid });
       });
     },
     /**
@@ -433,7 +433,7 @@ export default {
       } else {
         this.timer = window.setTimeout(() => {
           window.localStorage.setItem(me.STORAGE_KEY, JSON.stringify(content));
-          console.log("newChage", content);
+          console.log('newChage', content);
           // 被回退或者前进操作的时候不添加历史记录
           if (!me.lock) {
             HistoryCache.add(content); // 历史记录本身来处理数据的序列化和反序列化
@@ -443,16 +443,16 @@ export default {
       }
     },
     saveToServer() {
-      this.ema.fire("pageInfo.save");
+      this.ema.fire('pageInfo.save');
     },
     savePage(fast, callback) {
-      if (this.demoMode) return this.$alert("您处在demo模式下，不能保存数据哦");
+      if (this.demoMode) return this.$alert('您处在demo模式下，不能保存数据哦');
       var info = Object.assign({}, this.pageInfo);
       info.content = window.localStorage.getItem(this.STORAGE_KEY);
       console.log(info);
       Server({
-        url: "editor/pages/save",
-        method: "post", // default
+        url: 'editor/pages/save',
+        method: 'post', // default
         needLoading: true,
         data: info,
       })
@@ -460,30 +460,30 @@ export default {
           let code = data.code;
           let msg = data.msg;
           if (code == 500) return this.$alert(msg);
-          this.$message({ type: "success", message: "保存成功" });
+          this.$message({ type: 'success', message: '保存成功' });
           callback && callback();
           if (!fast) {
             this.savePagePreviewImage();
           }
         })
         .catch((respond) => {
-          this.$message({ type: "success", message: "保存失败" });
+          this.$message({ type: 'success', message: '保存失败' });
         });
     },
     savePagePreviewImage() {
       var urlInfo = common.parseURL(window.location.href);
       this.ema.fire(
-        "screenshot",
-        document.querySelector("#stage"),
-        { height: 486, fileName: urlInfo.params.key + ".jpg" },
+        'screenshot',
+        document.querySelector('#stage'),
+        { height: 486, fileName: urlInfo.params.key + '.jpg' },
         (src) => {
-          console.log("screenshot", src);
+          console.log('screenshot', src);
           var info = Object.assign({}, this.pageInfo);
           info.content = window.localStorage.getItem(this.STORAGE_KEY);
           info.image = src;
           Server({
-            url: "editor/pages/save",
-            method: "post", // default
+            url: 'editor/pages/save',
+            method: 'post', // default
             needLoading: false,
             data: info,
           })
@@ -495,15 +495,15 @@ export default {
     },
     async publish() {
       if (this.demoMode) {
-        return this.$alert("您处在 demo 模式下，不能保存数据哦");
+        return this.$alert('您处在 demo 模式下，不能保存数据哦');
       }
       let yes = await this.$confirm(
-        "您确定要发布吗？发布以后用户即可查看最新的页面"
+        '您确定要发布吗？发布以后用户即可查看最新的页面'
       );
       if (!yes) return;
       Server({
-        url: "editor/pages/publish",
-        method: "post", // default
+        url: 'editor/pages/publish',
+        method: 'post', // default
         needLoading: true,
         data: {
           pageKey: this.keys[1],
@@ -516,16 +516,16 @@ export default {
         let code = data.code;
         let msg = data.msg;
         if (code == 500) return this.$alert(msg);
-        this.$message({ type: "success", message: "发布成功" });
+        this.$message({ type: 'success', message: '发布成功' });
       });
     },
     getUserInfo() {
       Server({
-        url: "users/info?uid=0",
-        method: "get",
+        url: 'users/info?uid=0',
+        method: 'get',
       }).then(({ data }) => {
         let userInfo = (data && data.data) || {};
-        this.$store.dispatch("setUser", userInfo);
+        this.$store.dispatch('setUser', userInfo);
       });
     },
   },

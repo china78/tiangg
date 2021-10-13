@@ -17,8 +17,8 @@ module.exports = {
     'vue'
   ],
   rules: {
-    "quotes": 0,
-    "semi": ["error", "always"],
+    // "quotes": 0,
+    "semi": [2, "always"],
     "eol-last": 0,
     "vue/no-async-in-computed-properties": 0,
     "vue/no-side-effects-in-computed-properties": 0,
