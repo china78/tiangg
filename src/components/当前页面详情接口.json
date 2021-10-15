@@ -1,0 +1,149 @@
+{
+  "id": "root",
+  "type": "truck/emptyContainer",
+  "visible": true,
+  "style": {
+    "background-color": "rgba(255,255,255,1)",
+    "min-height": "100%",
+    "height": "391px",
+    "width": "100%",
+    "position": "absolute",
+    "box-shadow": "0px 0px 0px",
+    "color": "",
+    "top": "0px",
+    "left": "0px",
+    "font-size": null
+  },
+  "props": {
+    "click": []
+  },
+  "child": [
+    {
+      "id": "truck/emptyContainerg5",
+      "type": "truck/emptyContainer",
+      "label": "空容器节点g5",
+      "version": "1.0.2",
+      "url": "https://ymm-maliang.oss-cn-hangzhou.aliyuncs.com/truck/emptyContainer/1.0.2/index.js",
+      "visible": true,
+      "style": {
+        "position": "relative",
+        "width": "100%",
+        "height": "100%",
+        "left": "-0.53125px",
+        "top": "0px",
+        "bottom": null,
+        "right": null,
+        "background-color": "",
+        "color": ""
+      },
+      "animate": [],
+      "props": {
+        "click": []
+      },
+      "path": "https://ymm-maliang.oss-cn-hangzhou.aliyuncs.com/truck/emptyContainer/1.0.2/index.js",
+      "script": "",
+      "stack": true,
+      "childLimit": 9999,
+      "leaf": false,
+      "packed": false,
+      "events": [],
+      "child": [
+        {
+          "id": "truck/buttoni1",
+          "type": "truck/button",
+          "label": "按钮i1",
+          "version": "0.1.6",
+          "url": "https://ymm-maliang.oss-cn-hangzhou.aliyuncs.com/ymm-maliang/truck/button/0.1.6/index.js",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "width": "100.00px",
+            "height": "40.00px",
+            "left": "110.00px",
+            "top": "300.00px",
+            "background-color": "",
+            "color": ""
+          },
+          "animate": [],
+          "props": {
+            "text": "输入文字",
+            "type": "default",
+            "click": []
+          },
+          "path": "https://ymm-maliang.oss-cn-hangzhou.aliyuncs.com/ymm-maliang/truck/button/0.1.6/index.js",
+          "script": "",
+          "stack": true,
+          "childLimit": 9999,
+          "leaf": false,
+          "packed": false,
+          "events": [],
+          "child": []
+        },
+        {
+          "id": "2711/inputrd",
+          "type": "2711/input",
+          "label": "输入框rd",
+          "version": "1.0.2",
+          "url": "https://tggoss.oss-cn-hangzhou.aliyuncs.com/tggoss/2711/input/1.0.2/index.js",
+          "visible": true,
+          "style": {
+            "position": "absolute",
+            "width": "200.00px",
+            "height": "40.00px",
+            "left": "60.00px",
+            "top": "197.00px",
+            "background-color": "",
+            "color": ""
+          },
+          "animate": [],
+          "props": {
+            "text": "",
+            "placeholder": "请输入文本",
+            "type": "text",
+            "readonly": false,
+            "maxlength": -1
+          },
+          "path": "https://tggoss.oss-cn-hangzhou.aliyuncs.com/tggoss/2711/input/1.0.2/index.js",
+          "script": "",
+          "stack": true,
+          "childLimit": 9999,
+          "leaf": false,
+          "packed": false,
+          "events": []
+        }
+      ]
+    }
+  ],
+  "script": [
+    {
+      "name": "内部跳转",
+      "content": "return {\n  editorMethods: {              // 此项配置自定义方法的在组件配置面板如何展示\n    projectJump: {              // 方法名，对应于 `methods` 内的某方法\n      label: '内部跳转',         // 自定义方法显示名\n      params: [                 // 参数列表，对象数组  \n        {                \n          label: '跳转地址',     // 参数1的名称\n          desc: '项目相对地址',  // 参数1的描述\n          type: 'string',       // 参数1的类型，支持`string|number|boolean|array|object`\n          default: ''           // 参数1默认值\n        },\n        {\n          label: '参数',\n          desc: 'query形式参数',\n          type: 'object',\n          default: {}\n        }\n      ]\n    }\n  },\n  methods:{\n    projectJump:function(path,query){\n      this.$router.push({\n          path:path,\n          query:query\n      })\n    }\n  }\n}\nreturn node\n",
+      "id": 65537,
+      "runtimeOnly": false
+    },
+    {
+      "name": "点击提示",
+      "content": "\n  return {\n    mounted: function () {\n      console.log('hello lowCode')\n    }\n  }\nreturn node",
+      "id": 4
+    }
+  ],
+  "animate": [],
+  "version": "1.0.2",
+  "path": "https://ymm-maliang.oss-cn-hangzhou.aliyuncs.com/truck/emptyContainer/1.0.2/index.js",
+  "events": [
+    {
+      "event": "click",
+      "callList": []
+    }
+  ],
+  "label": "root",
+  "stack": false,
+  "childLimit": 9999,
+  "leaf": false,
+  "packed": false,
+  "canvas": {
+    "name": "Mobile S",
+    "width": "320px",
+    "height": "500px"
+  }
+}

@@ -5,13 +5,20 @@
     :class="{ active: isActive }"
     :style="computedStyle"
   >
-    <component :is="currPage" v-bind="nodeInfo.props" :ref="nodeInfo.id">
+    <component
+      :is="currPage"
+      v-bind="nodeInfo.props"
+      :ref="nodeInfo.id"
+    >
       <template
         slot="ListContainer"
         v-if="isListContainer"
         slot-scope="listCell"
       >
-        <prenode :info="nodeChild[0]" :scope="listCell"></prenode>
+        <prenode
+          :info="nodeChild[0]"
+          :scope="listCell"
+        ></prenode>
       </template>
       <template v-if="isPageContainer">
         <prenode
@@ -46,29 +53,26 @@
   </div>
 </template>
 <style lang="stylus" rel="stylesheet/stylus" scoped type="text/stylus">
-.node {
-  position: relative;
-  font-size: 16px;
-
-  &::before {
-    content: '';
-    display: block;
-    overflow: hidden;
-    height: 0;
-    width: 1px;
-  }
-}
+.node
+  position relative
+  font-size 16px
+  &::before
+    content ''
+    display block
+    overflow hidden
+    height 0
+    width 1px
 </style>
 <script type="text/ecmascript-6">
-import cLoader from "src/extend/componentLoader";
-import BaseComponent from "src/extend/BaseComponent";
-import BaseNode from "src/extend/BaseNode";
-import cloneDeep from "lodash/cloneDeep";
-import Vue from "vue";
+import cLoader from 'src/extend/componentLoader';
+import BaseComponent from 'src/extend/BaseComponent';
+import BaseNode from 'src/extend/BaseNode';
+import cloneDeep from 'lodash/cloneDeep';
+import Vue from 'vue';
 
 export default {
   mixins: [BaseNode, BaseComponent],
-  name: "prenode",
+  name: 'prenode',
   props: {
     scope: {
       type: Object,
@@ -88,9 +92,9 @@ export default {
   },
   data: function () {
     return {
-      oldId: "",
+      oldId: '',
       isActive: false,
-      currPage: "",
+      currPage: '',
       oldStyle: {},
       nodeInfo: (() => {
         if (this.scope) {
@@ -103,7 +107,7 @@ export default {
     };
   },
   watch: {
-    "nodeInfo.visible": function (val, old) {
+    'nodeInfo.visible': function (val, old) {
       if (old === false && val) {
         this.doAfterMounted();
       }
@@ -143,30 +147,30 @@ export default {
         this.nodeInfo.visible = newValue;
       },
     },
-    nodeChild() {
+    nodeChild () {
       return this.nodeInfo.child || [];
     },
-    hasChild() {
+    hasChild () {
       return this.nodeChild && this.nodeChild.length > 0;
     },
-    isListContainer() {
-      return this.nodeInfo && this.nodeInfo.type.indexOf("ListContainer") > -1;
+    isListContainer () {
+      return this.nodeInfo && this.nodeInfo.type.indexOf('ListContainer') > -1;
     },
-    isPageContainer() {
-      return this.nodeInfo && this.nodeInfo.type.indexOf("PageContainer") > -1;
+    isPageContainer () {
+      return this.nodeInfo && this.nodeInfo.type.indexOf('PageContainer') > -1;
     },
   },
   beforeDestroy: function () {
     delete window.$_nodePrecomponents[this.oldId];
   },
-  mounted() {
+  mounted () {
     this.oldId = this.nodeInfo.id;
     this.registerNodeToGlobal();
     this.doLoad();
   },
   methods: {
     cloneDeep: cloneDeep,
-    initNodeEvent() {
+    initNodeEvent () {
       var me = this;
       if (this.initEvented) return;
       this.initEvented = true;
@@ -188,30 +192,30 @@ export default {
      * @param {String} id  组件id
      * @param {boolean} child 是否获取组件内部元素
      */
-    getComponent(id, child) {
+    getComponent (id, child) {
       var component = window.$_nodePrecomponents[id];
       if (child && component) {
         return component.$refs[id];
       }
       return component;
     },
-    registerNodeToGlobal() {
+    registerNodeToGlobal () {
       window.$_nodePrecomponents = window.$_nodePrecomponents || {};
       window.$_nodePrecomponents[this.nodeInfo.id] = this;
     },
-    passScopeToComponentInstance() {
+    passScopeToComponentInstance () {
       let scope = this.scope;
       let $childInstance = this.$refs[this.nodeInfo.id];
       scope &&
         $childInstance &&
         $childInstance.$set(
           $childInstance.$data,
-          "inscope",
+          'inscope',
           scope.data || scope
         );
     },
-    async doLoad() {
-      if (this.nodeInfo.type === "node") return;
+    async doLoad () {
+      if (this.nodeInfo.type === 'node') return;
       const component = await cLoader.load(this.nodeInfo);
       this.slots = this.calcSlots(component, this.nodeInfo.props);
       if (!this.isNodeRegisted(this.nodeInfo.id)) {
@@ -220,17 +224,17 @@ export default {
       this.currPage = this.nodeInfo.id;
       this.doAfterMounted();
     },
-    doAfterMounted() {
+    doAfterMounted () {
       this.$nextTick(() => {
         this.passScopeToComponentInstance();
         this.runAnimate();
         this.initNodeEvent();
       });
     },
-    isNodeRegisted(tag) {
+    isNodeRegisted (tag) {
       return Boolean(Vue.component(tag));
     },
-    isNodeStartRegiste(tag) {
+    isNodeStartRegiste (tag) {
       return tag in (window.$_nodePrecomponents || {});
     },
   },

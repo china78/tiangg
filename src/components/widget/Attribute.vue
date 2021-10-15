@@ -9,7 +9,10 @@
         type="warning"
         :closable="false"
       ></el-alert>
-      <div class="update" v-if="newVersion && showUpdate">
+      <div
+        class="update"
+        v-if="newVersion && showUpdate"
+      >
         <div class="desc">
           <div>
             新版本：{{ this.newNodeInfo.version }},当前版本：{{
@@ -17,12 +20,17 @@
             }}
           </div>
         </div>
-        <el-button type="primary" size="mini" @click="updateComponent"
-          >更新组件</el-button
-        >
+        <el-button
+          type="primary"
+          size="mini"
+          @click="updateComponent"
+        >更新组件</el-button>
       </div>
       <el-collapse v-model="activeNames">
-        <el-collapse-item title="基础信息" name="base">
+        <el-collapse-item
+          title="基础信息"
+          name="base"
+        >
           <el-form
             v-if="selectNode"
             size="mini"
@@ -30,7 +38,10 @@
             label-width="100px"
             :model="selectNode"
           >
-            <el-form-item label="唯一id" style="position: relative">
+            <el-form-item
+              label="唯一id"
+              style="position: relative"
+            >
               <el-input
                 size="mini"
                 v-model="id"
@@ -39,8 +50,14 @@
                 style="padding-right: 25px"
               >
                 <template slot="append">
-                  <el-tooltip content="复制id" placement="top">
-                    <a class="iconfont icon-copy" @click="copyId(id)"></a>
+                  <el-tooltip
+                    content="复制id"
+                    placement="top"
+                  >
+                    <a
+                      class="iconfont icon-copy"
+                      @click="copyId(id)"
+                    ></a>
                   </el-tooltip>
                 </template>
               </el-input>
@@ -66,7 +83,10 @@
                 style="padding-right: 25px"
               >
                 <template slot="append">
-                  <el-tooltip content="组件当前版本" placement="top">
+                  <el-tooltip
+                    content="组件当前版本"
+                    placement="top"
+                  >
                     <a class="">v{{ selectNode.version }} </a>
                   </el-tooltip>
                 </template>
@@ -85,9 +105,10 @@
                 content="控制子组件的位置排布方式"
                 placement="top"
               >
-                <span
-                  >布局模式 <i class="el-icon-info" style="font-size: 12px"></i
-                ></span>
+                <span>布局模式 <i
+                    class="el-icon-info"
+                    style="font-size: 12px"
+                  ></i></span>
               </el-tooltip>
               <div>
                 <el-tooltip
@@ -95,12 +116,12 @@
                   content="子组件如楼层般依次向下扩展"
                   placement="top"
                 >
-                  <span
-                    :style="{
+                  <span :style="{
                       color: !selectNode.stack ? '#faad14' : 'inherit',
-                    }"
-                    ><i style="font-size: 12px" class="el-icon-info"></i
-                    >楼层模式
+                    }"><i
+                      style="font-size: 12px"
+                      class="el-icon-info"
+                    ></i>楼层模式
                   </span>
                 </el-tooltip>
                 <el-switch
@@ -116,17 +137,20 @@
                   content="子组件上下堆叠，位置可自由挪动"
                   placement="top"
                 >
-                  <span
-                    :style="{ color: selectNode.stack ? '#faad14' : 'inherit' }"
-                  >
-                    自由模式<i style="font-size: 12px" class="el-icon-info"></i
-                  ></span>
+                  <span :style="{ color: selectNode.stack ? '#faad14' : 'inherit' }">
+                    自由模式<i
+                      style="font-size: 12px"
+                      class="el-icon-info"
+                    ></i></span>
                 </el-tooltip>
               </div>
             </el-form-item>
           </el-form>
         </el-collapse-item>
-        <el-collapse-item title="属性设置" name="attr">
+        <el-collapse-item
+          title="属性设置"
+          name="attr"
+        >
           <div
             v-if="selectNode"
             size="mini"
@@ -139,7 +163,7 @@
               :key="currEditor"
               :is="currEditor"
               :component-info="currEditorData"
-            ></component>
+            />
             <template v-for="item in propsInfo">
               <div
                 class="form-item"
@@ -149,95 +173,101 @@
                 <template>
                   <span class="label">
                     <el-tooltip placement="top">
-                      <div style="max-width: 300px" slot="content">
+                      <div
+                        style="max-width: 300px"
+                        slot="content"
+                      >
                         {{ item.desc || "无" }}
                       </div>
                       <span>{{ item.label || item.key }}</span>
                     </el-tooltip>
                   </span>
-                  <span class="value" v-if="item">
+                  <span
+                    class="value"
+                    v-if="item"
+                  >
                     <!-- 文本相关 -->
                     <el-input
                       v-if="item.type == 'string'"
                       size="mini"
                       v-model="selectNode.props[item.key]"
-                    ></el-input>
+                    />
                     <el-input
                       v-else-if="item.type == 'number'"
                       type="number"
                       size="mini"
                       v-model.number="selectNode.props[item.key]"
-                    ></el-input>
+                    />
                     <el-input
                       v-else-if="item.type == 'input'"
                       size="mini"
                       v-model="selectNode.props[item.key]"
-                    ></el-input>
+                    />
                     <el-input
                       v-else-if="item.type == 'text'"
                       :autosize="{ minRows: 2, maxRows: 5 }"
                       type="textarea"
                       size="mini"
                       v-model="selectNode.props[item.key]"
-                    ></el-input>
+                    />
                     <rich-text
                       v-else-if="item.type == 'richtext'"
                       :id="id"
                       v-model="selectNode.props[item.key]"
-                    ></rich-text>
+                    />
                     <y-color-picker
                       v-else-if="item.type == 'color'"
                       v-model="selectNode.props[item.key]"
                       show-alpha
-                    ></y-color-picker>
+                    />
                     <!-- json -->
                     <attr-data
                       v-else-if="isCollapsed('attr') && item.type == 'object'"
                       type="object"
                       :content.sync="selectNode.props[item.key]"
-                    ></attr-data>
+                    />
                     <attr-data
                       v-else-if="isCollapsed('attr') && item.type == 'array'"
                       type="array"
                       :content.sync="selectNode.props[item.key]"
-                    ></attr-data>
+                    />
                     <attr-data
                       v-else-if="isCollapsed('attr') && item.type == 'data'"
                       :content.sync="selectNode.props[item.key]"
-                    ></attr-data>
+                    />
                     <!-- 布尔值 -->
                     <el-switch
                       v-else-if="item.type == 'boolean'"
                       size="mini"
                       v-model="selectNode.props[item.key]"
-                    ></el-switch>
+                    />
                     <!-- 图片 -->
                     <template v-else-if="item.type == 'image'">
                       <resource
                         type="image"
                         :url.sync="selectNode.props[item.key]"
-                      ></resource>
+                      />
                     </template>
                     <resource
                       v-else-if="item.type == 'audio'"
                       type="audio"
                       :url.sync="selectNode.props[item.key]"
-                    ></resource>
+                    />
                     <resource
                       v-else-if="item.type == 'video'"
                       type="video"
                       :url.sync="selectNode.props[item.key]"
-                    ></resource>
+                    />
                     <resource
                       v-else-if="item.type == 'file'"
                       type="file"
                       :url.sync="selectNode.props[item.key]"
-                    ></resource>
+                    />
                     <!-- 方法调用 -->
                     <attr-function
                       v-else-if="item.type == 'function'"
                       :content.sync="selectNode.props[item.key]"
-                    ></attr-function>
+                    />
 
                     <!-- 时间选择器 -->
                     <el-date-picker
@@ -246,7 +276,7 @@
                       v-model="selectNode.props[item.key]"
                       type="datetime"
                       placeholder="选择日期时间"
-                    ></el-date-picker>
+                    />
 
                     <!-- 枚举 -->
                     <el-select
@@ -261,7 +291,7 @@
                         :key="key"
                         :label="item.label"
                         :value="item.value"
-                      ></el-option>
+                      />
                     </el-select>
 
                     <template v-else-if="item.type == 'checkbox'">
@@ -276,14 +306,13 @@
                           v-for="(item, key) in enumFilter(
                             item.meta.defaultList
                           )"
-                          >{{ item.label }}</el-checkbox
-                        >
+                        >{{ item.label }}</el-checkbox>
                       </el-checkbox-group>
                       <!-- checkbox -->
                       <el-checkbox
                         v-else
                         v-model="selectNode.props[item.key]"
-                      ></el-checkbox>
+                      />
                     </template>
 
                     <!-- radio -->
@@ -295,8 +324,7 @@
                         :label="item.value"
                         :key="key"
                         v-for="(item, key) in enumFilter(item.meta.defaultList)"
-                        >{{ item.label }}</el-radio
-                      >
+                      >{{ item.label }}</el-radio>
                     </el-radio-group>
                   </span>
                 </template>
@@ -304,7 +332,10 @@
             </template>
           </div>
         </el-collapse-item>
-        <el-collapse-item title="事件管理" name="event">
+        <el-collapse-item
+          title="事件管理"
+          name="event"
+        >
           <attr-event
             v-if="selectNode"
             :content.sync="selectNode.events"
@@ -312,95 +343,78 @@
         </el-collapse-item>
       </el-collapse>
     </div>
-    <i v-show="!selectNode" class="iconfont icon-nodata nodata"></i>
-    <div class="forbid-edit-mask" v-show="forbidEdit"></div>
+    <i
+      v-show="!selectNode"
+      class="iconfont icon-nodata nodata"
+    ></i>
+    <div
+      class="forbid-edit-mask"
+      v-show="forbidEdit"
+    ></div>
   </div>
 </template>
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
-.widget.attribute {
-  position: relative;
-  padding: 5px !important;
-
-  .el-input-group__append {
-    padding: 0 10px;
-    cursor: pointer;
-  }
-
-  .update {
-    padding: 20px 10px;
-    text-align: center;
-
-    .desc {
-      text-align: left;
-      margin: 10px 5px;
-    }
-  }
-
-  .id-lock {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
-  .alerttip {
-    margin-bottom: 5px;
-  }
-
-  .noselect {
-    font-size: 20px;
-    color: #aaa;
-    font-weight: bolder;
-    text-align: center;
-  }
-
-  .form-item {
-    margin-bottom: 5px;
-    padding: 5px;
-
-    &:hover {
-      background-color: #6081bd33;
-      border-radius: 5px;
-
-      .label {
-        color: #ffffff;
-      }
-    }
-
-    .label {
-      font-weight: bold;
-      display: inline-block;
-      margin-bottom: 4px;
-      font-size: 12px;
-      min-width: 70px;
-    }
-
-    .value {
-      color: #909399;
-    }
-  }
-}
+.widget.attribute
+  position relative
+  padding 5px !important
+  .el-input-group__append
+    padding 0 10px
+    cursor pointer
+  .update
+    padding 20px 10px
+    text-align center
+    .desc
+      text-align left
+      margin 10px 5px
+  .id-lock
+    position absolute
+    right 0
+    top 0
+  .alerttip
+    margin-bottom 5px
+  .noselect
+    font-size 20px
+    color #aaa
+    font-weight bolder
+    text-align center
+  .form-item
+    margin-bottom 5px
+    padding 5px
+    &:hover
+      background-color #6081bd33
+      border-radius 5px
+      .label
+        color #ffffff
+    .label
+      font-weight bold
+      display inline-block
+      margin-bottom 4px
+      font-size 12px
+      min-width 70px
+    .value
+      color #909399
 </style>
 
 <script type="text/ecmascript-6">
 /**
  * 组件属性编辑器，每个组件的各个设置都是通过这里分发处理
  */
-import BaseComponent from "src/extend/BaseComponent";
-import RichText from "../attr/RichText";
-import AttrData from "../attr/Data";
-import Resource from "../attr/Resource";
-import AttrEvent from "../attr/Event";
-import AttrFunction from "../attr/Function";
-import Server from "src/extend/Server";
-import YColorPicker from "../style/ColorPicker";
-import Vue from "vue";
-import cLoader from "src/extend/componentLoader";
+import BaseComponent from 'src/extend/BaseComponent';
+import RichText from '../attr/RichText';
+import AttrData from '../attr/Data';
+import Resource from '../attr/Resource';
+import AttrEvent from '../attr/Event';
+import AttrFunction from '../attr/Function';
+import Server from 'src/extend/Server';
+import YColorPicker from '../style/ColorPicker';
+import Vue from 'vue';
+import cLoader from 'src/extend/componentLoader';
 
 const VERSION_CACHE = {};
 
 export default {
   mixins: [BaseComponent],
-  name: "Attribute",
+  name: 'Attribute',
   components: {
     RichText,
     Resource,
@@ -411,14 +425,14 @@ export default {
   },
   data: function () {
     return {
-      currEditor: "",
+      currEditor: '',
       currEditorData: {},
       showUpdate: false,
-      id: "",
+      id: '',
       canEditId: false,
       propsInfo: {},
       targetVm: null,
-      activeNames: ["base", "animate", "attr"],
+      activeNames: ['base', 'animate', 'attr'],
       selectNode: null,
       newNodeInfo: null,
       oldStyle: null,
@@ -453,28 +467,28 @@ export default {
       }
     },
     selectNode: function (newNode) {
-      console.log("selectNode", newNode);
+      console.log('selectNode', newNode);
       if (newNode && newNode.lock) {
         this.forbidEdit = true;
       } else {
         this.forbidEdit = false;
       }
     },
-    id(val) {
-      console.log("id change", val);
+    id (val) {
+      console.log('id change', val);
       this.checkNew(this.selectNode);
     },
   },
   mounted: function () {
     // 绑定被选中事件。确保只有一个元素被激活
     window.$vue && this.onSelectOne(window.$vue);
-    this.ema.bind("select.oneInfo", ({ vm }) => {
+    this.ema.bind('select.oneInfo', ({ vm }) => {
       this.onSelectOne(vm);
     });
-    this.ema.bind("edit-type.change", (type) => {
-      this.forbidEdit = type !== "EDITOR";
+    this.ema.bind('edit-type.change', (type) => {
+      this.forbidEdit = type !== 'EDITOR';
     });
-    this.ema.bind("select.noOne", () => {
+    this.ema.bind('select.noOne', () => {
       this.selectNode = null;
       this.newNodeInfo = null;
       this.vm = null;
@@ -495,18 +509,18 @@ export default {
         this.id = vm.nodeInfo.id;
       }
     },
-    async loadEditor(nodeInfo) {
-      this.currEditor = "";
+    async loadEditor (nodeInfo) {
+      this.currEditor = '';
       this.currEditorData = null;
       let component = await cLoader.loadEditor(nodeInfo);
       if (component) {
-        var ctype = nodeInfo.id + "_Editor";
+        var ctype = nodeInfo.id + '_Editor';
         Vue.component(ctype, component);
         this.currEditor = ctype;
         this.currEditorData = nodeInfo.props;
       }
     },
-    isCollapsed(attr) {
+    isCollapsed (attr) {
       var activeNames = this.activeNames;
       return (
         activeNames &&
@@ -514,36 +528,35 @@ export default {
           activeNames == attr)
       );
     },
-    checkNew: function ({ type = "" } = {}) {
+    checkNew: function ({ type = '' } = {}) {
       if (!type) return;
       if (type in VERSION_CACHE) {
         this.newNodeInfo = VERSION_CACHE[type];
         return;
       }
       Server({
-        url: "component/find",
-        method: "post",
+        url: 'component/find',
+        method: 'post',
         needLoading: false,
         data: {
           name: type,
-          version: "",
+          version: '',
         },
+      }).then(({ data }) => {
+        var list = data.data.list || [];
+        list.forEach((element) => {
+          if (element.isnew == 1) {
+            VERSION_CACHE[type] = element;
+            this.newNodeInfo = element;
+          }
+        });
       })
-        .then(({ data }) => {
-          var list = data.data.list || [];
-          list.forEach((element) => {
-            if (element.isnew == 1) {
-              VERSION_CACHE[type] = element;
-              this.newNodeInfo = element;
-            }
-          });
-        })
-        .catch(() => {});
+        .catch(() => { });
     },
-    copyId(id) {
-      this.ema.fire("clipboard.copy", id);
+    copyId (id) {
+      this.ema.fire('clipboard.copy', id);
     },
-    enumFilter(list) {
+    enumFilter (list) {
       if (!list) return [];
       if (list instanceof Array) {
         return list.map((li) => {
@@ -553,7 +566,7 @@ export default {
           };
         });
       }
-      if (typeof list === "object") {
+      if (typeof list === 'object') {
         return Object.entries(list).map(([key, value]) => {
           return {
             label: value,
@@ -572,7 +585,7 @@ export default {
         canChange = true;
       }
       if (canChange) {
-        this.$set(this.selectNode, "id", this.id);
+        this.$set(this.selectNode, 'id', this.id);
       } else {
         this.id = this.selectNode.id;
       }
@@ -580,19 +593,19 @@ export default {
     dealPropsType: function () {
       var instance = this.targetVm;
       this.propsInfo = [];
-      function getPropType(prop) {
+      function getPropType (prop) {
         // 编辑器属性上存在类型信息。以编辑器为准
         var propEditor = prop.editor || prop.editer;
         if (propEditor && propEditor.type) {
           return propEditor.type.toLocaleLowerCase();
         }
         var type = prop.type;
-        if (typeof type == "string") {
+        if (typeof type == 'string') {
           return type;
         }
         const match = type.toString().match(fnTypeRE);
         var ttype =
-          typeof type === "function" ? (match && match[1]) || "any" : "any";
+          typeof type === 'function' ? (match && match[1]) || 'any' : 'any';
         return ttype.toLocaleLowerCase();
       }
       if (instance && instance.$options) {
@@ -624,21 +637,21 @@ export default {
         this.propsInfo = this.propsInfo.sort(function (a, b) {
           return a.order - b.order;
         });
-        console.log("propsData", propsData);
+        console.log('propsData', propsData);
       }
     },
-    changeValue(tab, event) {},
+    changeValue (tab, event) { },
     /**
      * 组件更新
      */
     updateComponent: function () {
       this.$confirm(
-        "更新组件后，该组件设置的数据会丢失，确认更新该组件?",
-        "提示",
+        '更新组件后，该组件设置的数据会丢失，确认更新该组件?',
+        '提示',
         {
-          confirmButtonText: "确认更新",
-          cancelButtonText: "取消",
-          type: "warning",
+          confirmButtonText: '确认更新',
+          cancelButtonText: '取消',
+          type: 'warning',
         }
       )
         .then(() => {
@@ -650,8 +663,8 @@ export default {
         })
         .catch(() => {
           this.$message({
-            type: "warning",
-            message: "已取消",
+            type: 'warning',
+            message: '已取消',
           });
         });
     },

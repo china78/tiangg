@@ -1,7 +1,13 @@
 <template>
-  <div class="editorWarp" @contextmenu.prevent.stop="">
+  <div
+    class="editorWarp"
+    @contextmenu.prevent.stop=""
+  >
     <my-header :layout-data="layoutData" />
-    <ui-dock v-if="nodeInfo && layoutData" :info="layoutData" />
+    <ui-dock
+      v-if="nodeInfo && layoutData"
+      :info="layoutData"
+    />
     <div class="footer">
       <Tips />
     </div>
@@ -56,7 +62,7 @@ export default {
     MyHeader,
     Bughd,
   },
-  data() {
+  data () {
     return {
       screenshotKey: null,
       layoutData: null,
@@ -74,7 +80,7 @@ export default {
   },
   props: ['active'],
   computed: {
-    STORAGE_KEY() {
+    STORAGE_KEY () {
       if (!this.keys || !this.keys.length) return 'EditorautoSave_tmp';
       return `EditorautoSave_${this.keys[0] || ''}_${this.keys[1] || ''}`;
     },
@@ -88,14 +94,14 @@ export default {
       this.ema.fire('editor.nodeInfoChange', params);
     },
     currentLayout: {
-      handler(val, oldVal) {
+      handler (val, oldVal) {
         this.layout(val);
       },
       immediate: true,
     },
   },
-  beforeCreate: function () {},
-  created: function () {},
+  beforeCreate: function () { },
+  created: function () { },
   mounted: function () {
     window.Editor = this;
     this.bindEvent();
@@ -104,7 +110,7 @@ export default {
     // this.autoSave()
   },
   methods: {
-    async layout(type) {
+    async layout (type) {
       if (!type) return;
       const LAYOUT_SAVE_KEYS = 'dockLayout_save';
       const LAYOUT_TYPE_KEYS = 'dockLayout_type';
@@ -115,7 +121,7 @@ export default {
             layoutOptions = JSON.parse(
               window.localStorage.getItem(LAYOUT_SAVE_KEYS) || '{}'
             );
-          } catch (e) {}
+          } catch (e) { }
           let baseLayoutOptions = await import(
             /* webpackMode: "eager" */
             /* webpackInclude: /\.json$/ */
@@ -144,13 +150,13 @@ export default {
       }
       window.localStorage.setItem(LAYOUT_TYPE_KEYS, type);
     },
-    autoSave() {
+    autoSave () {
       setInterval(() => {
         this.ema.fire('pageInfo.save');
       }, 1000 * 60 * 2);
     },
-    canDrag() {},
-    bindEvent() {
+    canDrag () { },
+    bindEvent () {
       // loading
       let $loading;
       this.ema.bind('loading.show', () => {
@@ -407,10 +413,11 @@ export default {
       }).then((respond) => {
         var data = respond.data;
         this.pageInfo = data.data;
+        console.log('pageInfo: ', JSON.parse(data.data.content));
         var info = null;
         try {
           info = JSON.parse(this.pageInfo.content) || emptyPage;
-        } catch (error) {}
+        } catch (error) { }
         this.$store.dispatch('setPageType', this.pageInfo.type);
         if (info.canvas && info.canvas.width) {
           this.$store.dispatch('SettingChange', { phoneSize: info.canvas });
@@ -423,7 +430,7 @@ export default {
      * 持久化数据并更新操作历史数据
      * @augments String content 内容
      */
-    doSave(content, immediately) {
+    doSave (content, immediately) {
       var me = this;
       if (this.timer) {
         window.clearTimeout(this.timer);
@@ -442,10 +449,10 @@ export default {
         }, 500);
       }
     },
-    saveToServer() {
+    saveToServer () {
       this.ema.fire('pageInfo.save');
     },
-    savePage(fast, callback) {
+    savePage (fast, callback) {
       if (this.demoMode) return this.$alert('您处在demo模式下，不能保存数据哦');
       var info = Object.assign({}, this.pageInfo);
       info.content = window.localStorage.getItem(this.STORAGE_KEY);
@@ -470,7 +477,7 @@ export default {
           this.$message({ type: 'success', message: '保存失败' });
         });
     },
-    savePagePreviewImage() {
+    savePagePreviewImage () {
       var urlInfo = common.parseURL(window.location.href);
       this.ema.fire(
         'screenshot',
@@ -487,13 +494,13 @@ export default {
             needLoading: false,
             data: info,
           })
-            .then(({ data }) => {})
-            .catch((respond) => {});
+            .then(({ data }) => { })
+            .catch((respond) => { });
         },
         false
       );
     },
-    async publish() {
+    async publish () {
       if (this.demoMode) {
         return this.$alert('您处在 demo 模式下，不能保存数据哦');
       }
@@ -519,7 +526,7 @@ export default {
         this.$message({ type: 'success', message: '发布成功' });
       });
     },
-    getUserInfo() {
+    getUserInfo () {
       Server({
         url: 'users/info?uid=0',
         method: 'get',
@@ -533,194 +540,128 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
-@require 'assets/style/base.styl';
-@require 'assets/style/m-1px.styl';
-@import url('//at.alicdn.com/t/font_503463_iuhwl9258d.css');
-
-normalize();
-
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  font-size: 16px !important;
-  size(100%);
-  overflow: hidden;
-  background-color: $-bg-color;
-  color: #505152;
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
-
-::-webkit-scrollbar-track-piece {
-  background-color: #CCCCCC;
-  border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:vertical {
-  height: 5px;
-  background-color: #999999;
-  border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:horizontal {
-  width: 5px;
-  background-color: #CCCCCC;
-  border-radius: 6px;
-}
-
+@require 'assets/style/base.styl'
+@require 'assets/style/m-1px.styl'
+@import url('//at.alicdn.com/t/font_503463_iuhwl9258d.css')
+normalize()
+*
+  box-sizing border-box
+html, body
+  font-size 16px !important
+  size(100%)
+  overflow hidden
+  background-color $-bg-color
+  color #505152
+::-webkit-scrollbar
+  width 0px
+  height 0px
+::-webkit-scrollbar-track-piece
+  background-color #CCCCCC
+  border-radius 6px
+::-webkit-scrollbar-thumb:vertical
+  height 5px
+  background-color #999999
+  border-radius 6px
+::-webkit-scrollbar-thumb:horizontal
+  width 5px
+  background-color #CCCCCC
+  border-radius 6px
 // .el-tabs__item {
 // float: left;
 // }
-.editorWarp {
-  width: 100%;
-  height: 100%;
-  left: 0;
-  bottom: 0;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-
-  .qrcode {
-    width: 200px;
-    height: 200px;
-    margin: 20px auto;
-    display: block;
-    padding: 5px;
-    background: white;
-  }
-
-  .outLink {
-    padding: 10px 0 20px;
-    width: 100%;
-    font-size: 12px;
-    word-break: break-all;
-    line-height: 1.2;
-    font-weight: bolder;
-
-    i.iconfont {
-      font-size: 12px;
-    }
-
-    a {
-      color: #666;
-      text-decoration: none;
-    }
-  }
-}
-
-.footer {
-  height: 25px;
-  position: relative;
-  box-shadow: 0 0px 6px 0px #696969;
-  margin-top: 2px;
-}
-
-.v-modal {
-  opacity: 0.7 !important;
-}
-
-.dingding {
-  padding: 10px;
-  text-align: center;
-  color: red;
-  margin-top: 20px;
-  width: 300px;
-  font-size: 14px;
-
-  img {
-    width: 80%;
-    margin: auto;
-  }
-}
-
-.nodata.icon-nodata {
-  font-size: 117px;
-  margin: 30px auto;
-  display: block;
-  width: 130px;
-  height: 130px;
-}
-
-.forbid-edit-mask {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  z-index: 10;
+.editorWarp
+  width 100%
+  height 100%
+  left 0
+  bottom 0
+  position absolute
+  display flex
+  flex-direction column
+  .qrcode
+    width 200px
+    height 200px
+    margin 20px auto
+    display block
+    padding 5px
+    background white
+  .outLink
+    padding 10px 0 20px
+    width 100%
+    font-size 12px
+    word-break break-all
+    line-height 1.2
+    font-weight bolder
+    i.iconfont
+      font-size 12px
+    a
+      color #666
+      text-decoration none
+.footer
+  height 25px
+  position relative
+  box-shadow 0 0px 6px 0px #696969
+  margin-top 2px
+.v-modal
+  opacity 0.7 !important
+.dingding
+  padding 10px
+  text-align center
+  color red
+  margin-top 20px
+  width 300px
+  font-size 14px
+  img
+    width 80%
+    margin auto
+.nodata.icon-nodata
+  font-size 117px
+  margin 30px auto
+  display block
+  width 130px
+  height 130px
+.forbid-edit-mask
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  top 0
+  z-index 10
   // background-color rgba(0,0,0,0.5);
-  cursor: not-allowed;
-}
-
-.searchTags {
-  .tag {
-    margin: 5px;
-  }
-}
-
-.el-tabs__header {
-  .el-tabs__nav-wrap {
-    .el-tabs__nav-next, .el-tabs__nav-prev {
-      line-height: 29px;
-    }
-
-    &.is-scrollable {
-      padding: 0 16px;
-    }
-  }
-}
-
-.ui-dock-panel > div > .el-tabs__header {
-  padding-right: 22px;
-  box-shadow: inset 0 -1px 1px 0px #000;
-}
-
-.ui-dock-panel {
-  .el-tabs--border-card > .el-tabs__header {
-    border-bottom: none;
-  }
-
-  .el-tabs--border-card > .el-tabs__header .el-tabs__item {
-    border: none;
-  }
-
-  .el-tabs__nav-wrap {
-    margin-bottom: 0;
-  }
-}
-
-.editorWarp {
-  .el-collapse-item__wrap {
-    border-bottom: 1px solid #000000;
-    box-shadow: 0 2px 1px -2px #fff;
-  }
-
-  .el-collapse-item__header {
-    border-bottom: 1px solid #000000;
-    box-shadow: 0 2px 1px -2px #fff;
-
-    &.is-active {
-      border-bottom-color: transparent;
-      box-shadow: none;
-    }
-  }
-
-  .el-collapse {
-    border: none;
-  }
-
-  .el-input__inner {
-    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.6);
-  }
-
-  .el-tabs__nav-wrap::after {
-    background-color: #000000;
-    box-shadow: inset 1px -3px 0px -2px #656565;
-  }
-}
+  cursor not-allowed
+.searchTags
+  .tag
+    margin 5px
+.el-tabs__header
+  .el-tabs__nav-wrap
+    .el-tabs__nav-next, .el-tabs__nav-prev
+      line-height 29px
+    &.is-scrollable
+      padding 0 16px
+.ui-dock-panel > div > .el-tabs__header
+  padding-right 22px
+  box-shadow inset 0 -1px 1px 0px #000
+.ui-dock-panel
+  .el-tabs--border-card > .el-tabs__header
+    border-bottom none
+  .el-tabs--border-card > .el-tabs__header .el-tabs__item
+    border none
+  .el-tabs__nav-wrap
+    margin-bottom 0
+.editorWarp
+  .el-collapse-item__wrap
+    border-bottom 1px solid #000000
+    box-shadow 0 2px 1px -2px #fff
+  .el-collapse-item__header
+    border-bottom 1px solid #000000
+    box-shadow 0 2px 1px -2px #fff
+    &.is-active
+      border-bottom-color transparent
+      box-shadow none
+  .el-collapse
+    border none
+  .el-input__inner
+    box-shadow 1px 1px 1px 0px rgba(0, 0, 0, 0.6)
+  .el-tabs__nav-wrap::after
+    background-color #000000
+    box-shadow inset 1px -3px 0px -2px #656565
 </style>

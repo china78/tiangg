@@ -1,15 +1,15 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import Metadata from 'src/store/metadata'
-import * as actions from './actions'
-import * as getters from './getters'
-import * as mutations from './mutations'
-let Config = require('../config/index')
+import Vue from 'vue';
+import Vuex from 'vuex';
+import Metadata from 'src/store/metadata';
+import * as actions from './actions';
+import * as getters from './getters';
+import * as mutations from './mutations';
+let Config = require('../config/index');
 
-const debug = process.env.NODE_ENV !== 'production'
+const debug = process.env.NODE_ENV !== 'production';
 
-if (debug) Vue.use(Vuex)
-var nodeInfo = {}
+if (debug) Vue.use(Vuex);
+var nodeInfo = {};
 
 const state = {
   app: {
@@ -28,13 +28,13 @@ const state = {
     phoneline: true, // 手机框
     sorb: true // 是否拖拽吸附
   }, (() => {
-    let editorSetting = {}
+    let editorSetting = {};
     try {
-      editorSetting = JSON.parse(window.localStorage.getItem('EditorSetting')) || {}
+      editorSetting = JSON.parse(window.localStorage.getItem('EditorSetting')) || {};
     } catch (error) {}
-    delete editorSetting.phoneSize
-    delete editorSetting.demoMode
-    return editorSetting
+    delete editorSetting.phoneSize;
+    delete editorSetting.demoMode;
+    return editorSetting;
   })()),
   RootNodeInfo: nodeInfo,
   componentList: {},
@@ -87,7 +87,7 @@ const state = {
       'widgetShop': '商城'
     }
   }
-}
+};
 
 export default new Vuex.Store({
   strict: debug,
@@ -95,4 +95,4 @@ export default new Vuex.Store({
   actions,
   getters,
   mutations
-})
+});
