@@ -1,5 +1,5 @@
-import EMA from '../assets/js/singleton-ema'
-import {mapState} from 'vuex'
+import EMA from '../assets/js/singleton-ema';
+import { mapState } from 'vuex';
 
 export default {
   replace: true,
@@ -8,7 +8,7 @@ export default {
       title: '',
       size: 'small',
       Visible: true // 弹出框显示状态
-    }
+    };
   },
   computed: mapState({
     Config: state => state.Config,
@@ -17,27 +17,27 @@ export default {
     demoMode: state => state.setting.demoMode
   }),
   // 组件是你刚被创建,组件属性计算前
-  beforeCreated: function () {},
+  beforeCreated: function () { },
   // 组件创建完成,属性已绑定,但是dom还没生产,$el还不存在
   created: function () {
-    this.ema = EMA.getProxy()
+    this.ema = EMA.getProxy();
   },
   // 模板编译挂载前
-  beforeMount: function () {},
+  beforeMount: function () { },
   // 模板编译挂载之后,不保证组件已经在document中。
-  mounted: function () {},
+  mounted: function () { },
   // 组件更新之前
-  beforeUpdate: function () {},
+  beforeUpdate: function () { },
   // 组件更新之后
-  updated: function () {},
+  updated: function () { },
   // keep-alive 会用到
   // 组件被激活
-  activated: function () {},
+  activated: function () { },
   // 组件被移除
-  deactivated: function () {},
-  beforDestroy: function () {},
+  deactivated: function () { },
+  beforDestroy: function () { },
   destroyed: function () {
-    this.ema.dispose()
+    this.ema.dispose();
   },
   methods: {
     /**
@@ -47,9 +47,9 @@ export default {
      */
     bindEvent: function (key, fn) {
       if (!this.$options.name) {
-        console.warn('绑定事件的组件不存在组件名称', key)
+        console.warn('绑定事件的组件不存在组件名称', key);
       }
-      this.ema.bind(`${this.$options.name}.${key}`, fn)
+      this.ema.bind(`${this.$options.name}.${key}`, fn);
     },
     /**
      * 打开一个弹出框
@@ -61,10 +61,10 @@ export default {
      *  }
      */
     openDialog: function (data) {
-      this.ema.fire('Dialogs.push', data)
+      this.ema.fire('Dialogs.push', data);
     },
     close: function () {
-      this.ema.fire('Dialogs.close', this.$options.name)
+      this.ema.fire('Dialogs.close', this.$options.name);
     }
   }
-}
+};

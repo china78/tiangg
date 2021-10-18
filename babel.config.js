@@ -1,14 +1,14 @@
 module.exports = {
   comments: true,
   presets: [
-    ['@vue/app', {useBuiltIns: false}]
+    ['@vue/app', { useBuiltIns: false }]
   ],
   plugins: [
     [
       'import', {
-        libraryName: "mint-ui",
+        libraryName: 'mint-ui',
         style: (name) => `${name}/style.css`,
       }
     ]
   ],
-}
+};

@@ -23,7 +23,7 @@
                   size="mini"
                   @click="resetTime"
                 >
-                  <i class="icon el-icon-refresh"></i>
+                  <i class="icon el-icon-refresh" />
                 </el-button>
               </el-tooltip>
               <el-tooltip
@@ -57,7 +57,7 @@
             <animate-layer-node
               v-if="rootNode"
               :info="rootNode"
-            ></animate-layer-node>
+            />
           </div>
         </div>
       </div>
@@ -83,7 +83,7 @@
                 <path
                   fill="#faad14"
                   d="M9,4 L16,4 C17.1045695,4 18,4.8954305 18,6 L18,13.0070582 C18,14.3526183 17.4576726,15.6413868 16.4955882,16.5820916 L13,20 L12,20 L8.50441184,16.5820916 C7.5423274,15.6413868 7,14.3526183 7,13.0070582 L7,6 C7,4.8954305 7.8954305,4 9,4 Z"
-                ></path>
+                />
                 <g
                   transform="translate(12.000000, 7.000000)"
                   fill="#FFFFFF"
@@ -95,21 +95,21 @@
                     y="0"
                     width="1"
                     height="1"
-                  ></rect>
+                  />
                   <rect
                     id="Rectangle"
                     x="0"
                     y="3"
                     width="1"
                     height="1"
-                  ></rect>
+                  />
                   <rect
                     id="Rectangle"
                     x="0"
                     y="6"
                     width="1"
                     height="1"
-                  ></rect>
+                  />
                 </g>
               </g>
             </svg>
@@ -142,7 +142,7 @@
                     :class="[j==1?'ail':'aik']"
                     :data-unit="i-1"
                     :style="spaceStyle"
-                  ></span>
+                  />
                 </template>
               </div>
             </div>
@@ -158,7 +158,7 @@
               v-if="rootNode"
               :info="rootNode"
               :time-space="timeSpace"
-            ></time-line-node>
+            />
           </div>
         </div>
       </div>
@@ -174,14 +174,14 @@
             v-model.number="timeSpace.allTime"
             style="width:60px"
             type="number"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="刻度间隔">
           <el-input
             v-model.number="timeSpace.length"
             style="width:60px"
             type="number"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="刻度数">
           <el-select
@@ -193,11 +193,11 @@
             <el-option
               label="10"
               :value="10"
-            ></el-option>
+            />
             <el-option
               label="5"
               :value="5"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -205,7 +205,7 @@
     <div
       class="forbid-edit-mask"
       v-show="forbidEdit"
-    ></div>
+    />
   </div>
 </template>
 <style lang="stylus" rel="stylesheet/stylus" scoped type="text/stylus">

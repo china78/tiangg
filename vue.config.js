@@ -1,8 +1,8 @@
-const path = require('path')
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
-const config = require('./src/config/index')
+const path = require('path');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const config = require('./src/config/index');
 
-let page
+let page;
 switch (process.env.PAGE) {
   case 'CLIENT':
     page = {
@@ -11,8 +11,8 @@ switch (process.env.PAGE) {
       outputDir: `dist/${config.VIEW_NAME || 'view'}`,
       publicPath: '/' + config.VIEW_NAME,
       port: 8566,
-    }
-    break
+    };
+    break;
   case 'EDITOR':
   default:
     page = {
@@ -29,7 +29,7 @@ switch (process.env.PAGE) {
         'onigasm.wasm': path.join(__dirname, './node_modules/onigasm/lib/onigasm.wasm'),
       },
       plugins: [new MonacoWebpackPlugin()]
-    }
+    };
 }
 
 const configureWebpack = {
@@ -43,12 +43,12 @@ const configureWebpack = {
     'html2canvas': 'html2canvas'
   }, page.externals || {}),
   plugins: page.plugins || []
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
-  configureWebpack.externals.vue = 'Vue'
-  configureWebpack.externals['vue-router'] = 'VueRouter'
-  configureWebpack.externals.vuex = 'Vuex'
+  configureWebpack.externals.vue = 'Vue';
+  configureWebpack.externals['vue-router'] = 'VueRouter';
+  configureWebpack.externals.vuex = 'Vuex';
 }
 
 module.exports = {
@@ -74,13 +74,13 @@ module.exports = {
   },
   configureWebpack: configureWebpack,
   chainWebpack: config => {
-    config.plugins.delete('preload-index')
-    config.plugins.delete('prefetch-index')
+    config.plugins.delete('preload-index');
+    config.plugins.delete('prefetch-index');
 
     config.plugin('define').tap(args => {
-      args[0]['process.env'].CODE_ENV = JSON.stringify(process.env.CODE_ENV)
-      return args
-    })
+      args[0]['process.env'].CODE_ENV = JSON.stringify(process.env.CODE_ENV);
+      return args;
+    });
     config.module
       .rule('wasm')
       .test(/\.wasm$/)
@@ -89,7 +89,7 @@ module.exports = {
       .tap(options => {
         return {
           limit: 0
-        }
-      })
+        };
+      });
   }
-}
+};

@@ -18,7 +18,7 @@
         <prenode
           :info="nodeChild[0]"
           :scope="listCell"
-        ></prenode>
+        />
       </template>
       <template v-if="isPageContainer">
         <prenode
@@ -27,7 +27,7 @@
           :info="item"
           v-for="item in nodeChild"
           :key="item.id"
-        ></prenode>
+        />
       </template>
       <template v-if="nodeInfo.child && !!slots">
         <prenode
@@ -38,7 +38,7 @@
           :stacked="nodeInfo.stack"
           :scope="scope"
           :info="item"
-        ></prenode>
+        />
       </template>
     </component>
     <template v-if="hasChild && !isListContainer && !isPageContainer && !slots">
@@ -48,7 +48,7 @@
         :stacked="nodeInfo.stack"
         :scope="scope"
         :info="item"
-      ></prenode>
+      />
     </template>
   </div>
 </template>
@@ -90,7 +90,7 @@ export default {
       default: null,
     },
   },
-  data: function () {
+  data () {
     return {
       oldId: '',
       isActive: false,
@@ -160,7 +160,7 @@ export default {
       return this.nodeInfo && this.nodeInfo.type.indexOf('PageContainer') > -1;
     },
   },
-  beforeDestroy: function () {
+  beforeDestroy () {
     delete window.$_nodePrecomponents[this.oldId];
   },
   mounted () {

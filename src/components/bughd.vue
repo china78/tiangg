@@ -1,27 +1,33 @@
 <template>
   <transition name="bughd">
-    <div v-show="error && visible" class="bughd">
+    <div
+      v-show="error && visible"
+      class="bughd"
+    >
       {{ error && error.stack }}
-      <div class="close-btn" @click="visible = false">
-        <i class="el-icon-error"></i>
+      <div
+        class="close-btn"
+        @click="visible = false"
+      >
+        <i class="el-icon-error" />
       </div>
     </div>
   </transition>
 </template>
 <script>
-import BaseComponent from "src/extend/BaseComponent";
+import BaseComponent from 'src/extend/BaseComponent';
 
 export default {
-  name: "bughd",
+  name: 'bughd',
   mixins: [BaseComponent],
-  data() {
+  data () {
     return {
       error: null,
       visible: true,
     };
   },
-  mounted() {
-    this.ema.bind("bughd.open", (e) => {
+  mounted () {
+    this.ema.bind('bughd.open', (e) => {
       this.error = e;
       this.visible = true;
     });

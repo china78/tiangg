@@ -232,7 +232,7 @@ export default {
     },
   },
   computed: {
-    nodeInfo: function () {
+    nodeInfo () {
       this.$set(this.info, 'version', this.info.version || '0.1.0');
       return this.info;
     },
@@ -266,10 +266,10 @@ export default {
       return !this.isRootNode && this.nodeInfo.packed;
     },
   },
-  beforeDestroy: function () {
+  beforeDestroy () {
     delete window.$_nodecomponents[this.oldId];
   },
-  mounted: function () {
+  mounted () {
     this.oldId = this.nodeInfo.id;
     this.initBaseCss();
     this.bindSelectOne();
@@ -280,7 +280,7 @@ export default {
     this.bindReload();
     this.registerNodeToGlobal();
     this.doLoad();
-    console.log('mounted:', this.nodeInfo);
+    console.log('nodeInfo: ', this.nodeInfo);
   },
   methods: {
     registerNodeToGlobal () {
@@ -300,7 +300,7 @@ export default {
      * @param {String} id  组件id
      * @param {boolean} child 是否获取组件内部元素
      */
-    getComponent: function (id, child) {
+    getComponent (id, child) {
       var component = window.$_nodecomponents[id];
       if (child && component) {
         return component.$refs[id];
@@ -310,7 +310,7 @@ export default {
     /**
      * 绑定选中节点运行动画
      */
-    bindRunAnimation: function () {
+    bindRunAnimation () {
       this.ema.bind('animate.timeline.move', (time, alltime) => {
         if (this.nodeInfo.animate.length > 0 && this.isVisible(this)) {
           this.setAnimationFrame(time, alltime);
@@ -369,7 +369,7 @@ export default {
     /**
      * 绑定选中一个节点事件
      */
-    bindDrag: function () {
+    bindDrag () {
       // 绑定被选中事件。确保只有一个元素被激活
       this.ema.bind('dragenter.one', (id) => {
         if (!id || id != this.nodeInfo.id) {
@@ -388,7 +388,7 @@ export default {
     /**
      * 绑定选中一个节点事件
      */
-    bindSelectOne: function () {
+    bindSelectOne () {
       // 绑定被选中事件。确保只有一个元素被激活
       this.ema.bind('select.one', (id, keepContextMenu) => {
         if (this.nodeInfo.locked) return;
@@ -455,7 +455,7 @@ export default {
     /**
      * 对page容器绑定，选择page下面的直接孩子的时候，其他孩子隐藏掉
      */
-    bindPageContainerSelect: function () {
+    bindPageContainerSelect () {
       var parent = this.parentNodeVm;
       if (
         parent &&
@@ -571,7 +571,7 @@ export default {
       }
       this.bindCalcSlot();
     },
-    bindReload: function () {
+    bindReload () {
       this.ema.bind('component.reload', (id) => {
         if (id == this.nodeInfo.id && this.nodeInfo.type !== 'node') {
           this.currPage = '';
@@ -581,7 +581,7 @@ export default {
         }
       });
     },
-    mergeProps: function () {
+    mergeProps () {
       var id = this.nodeInfo.id;
       if (this.$refs[id] && this.$refs[id].$props) {
         for (const key in this.$refs[id].$props) {
@@ -592,13 +592,13 @@ export default {
         }
       }
     },
-    mouseover: function () { },
-    mouseenter: function (e) {
+    mouseover () { },
+    mouseenter (e) {
       if (this.packedChild) return;
       this.mouseovered = true;
       this.componentEvents = 'none';
     },
-    mouseout: function (e) {
+    mouseout (e) {
       if (this.packedChild) return;
       this.mouseovered = false;
       this.componentEvents = 'auto';
@@ -610,7 +610,7 @@ export default {
      * 选中某个节点
      * @augments
      */
-    actived: function (keepContextMenu) {
+    actived (keepContextMenu) {
       if (this.packedChild) return;
       // 通知所有节点被选中的是谁
       console.log('actived....', keepContextMenu, this.nodeInfo);
@@ -620,31 +620,31 @@ export default {
         this.ema.fire('select.one', this.nodeInfo.id, keepContextMenu);
       }
     },
-    dragenter: function (ev) {
+    dragenter (ev) {
       ev.stopPropagation();
       this.ema.fire('dragenter.one', this.nodeInfo.id);
     },
-    dragleave: function (ev) {
+    dragleave (ev) {
       ev.stopPropagation();
     },
-    dragover: function (ev) {
+    dragover (ev) {
       ev.stopPropagation();
       ev.preventDefault();
     },
-    dragenterDivider: function (ev) {
+    dragenterDivider (ev) {
       ev.stopPropagation();
       this.dragenteredDivider = true;
       this.ema.fire('dragenter.one', null);
     },
-    dragleaveDivider: function (ev) {
+    dragleaveDivider (ev) {
       ev.stopPropagation();
       this.dragenteredDivider = false;
     },
-    dragoverDivider: function (ev) {
+    dragoverDivider (ev) {
       ev.stopPropagation();
       ev.preventDefault();
     },
-    dropDivider: function (ev) {
+    dropDivider (ev) {
       ev.stopPropagation();
       ev.preventDefault();
       var parentNode = this.parentNodeVm.nodeInfo;
@@ -661,7 +661,7 @@ export default {
         });
       }
     },
-    dragstart: function (ev, menu) {
+    dragstart (ev, menu) {
       ev.stopPropagation();
       ev.dataTransfer.effectAllowed = 'move';
       ev.dataTransfer.setData('moveid', this.nodeInfo.id);
@@ -674,13 +674,13 @@ export default {
       );
       ev.dataTransfer.setDragImage(ev.target, ev.offsetX, ev.offsetY);
     },
-    dragend: function (ev, menu) {
+    dragend (ev, menu) {
       ev.stopPropagation();
     },
     /**
      * 拖动释放元素，
      */
-    drop: function (ev) {
+    drop (ev) {
       ev.stopPropagation();
       ev.preventDefault();
       this.dragentered = false;
@@ -750,7 +750,7 @@ export default {
      * @augments node 孩子节点元素
      * @augments step 移动数量  1：上移，-1:下移 0:底部 Number.MAX_VALUE:顶层
      */
-    moveLayer: function (node, step) {
+    moveLayer (node, step) {
       var childs = this.nodeInfo.child;
       var index = childs.indexOf(node);
       if (index != -1) {
@@ -765,7 +765,7 @@ export default {
         childs.splice(targetIndex, 0, Object.assign({}, info));
       }
     },
-    copyChild: function (node, { isJson, keepPos }) {
+    copyChild (node, { isJson, keepPos }) {
       let judge = componentAddJudge(this.nodeInfo, this);
       if (!judge.can) return this.$alert(judge.msg);
       if (!this.nodeInfo.child) this.$set(this.nodeInfo, 'child', []);

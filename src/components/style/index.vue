@@ -4,15 +4,15 @@
       :node-id='nodeId'
       v-if="info"
       :info="info"
-    ></editor-advanced>
+    />
     <i
       v-else
       class="iconfont icon-nodata nodata"
-    ></i>
+    />
     <div
       class="forbid-edit-mask"
       v-show="forbidEdit"
-    ></div>
+    />
   </div>
 </template>
 <style lang="stylus" rel="stylesheet/stylus" scoped type="text/stylus">

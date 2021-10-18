@@ -31,7 +31,7 @@ const state = {
     let editorSetting = {};
     try {
       editorSetting = JSON.parse(window.localStorage.getItem('EditorSetting')) || {};
-    } catch (error) {}
+    } catch (error) { }
     delete editorSetting.phoneSize;
     delete editorSetting.demoMode;
     return editorSetting;

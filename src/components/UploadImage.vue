@@ -1,7 +1,11 @@
 <template>
-  <el-button :size="size" id="virtualUpload" v-show="showBtn" type="primary"
-    >上传
-    <i class="el-icon-upload el-icon--right"></i>
+  <el-button
+    :size="size"
+    id="virtualUpload"
+    v-show="showBtn"
+    type="primary"
+  >上传
+    <i class="el-icon-upload el-icon--right" />
   </el-button>
 </template>
 <style lang="stylus" rel="stylesheet/stylus" scoped type="text/stylus"></style>
@@ -9,13 +13,13 @@
 /**
  * 选择图片上传组件
  */
-import Util from "src/extend/Util";
-import UploadImg from "src/extend/UploadImg";
-import BaseComponent from "src/extend/BaseComponent";
+import Util from 'src/extend/Util';
+import UploadImg from 'src/extend/UploadImg';
+import BaseComponent from 'src/extend/BaseComponent';
 
 export default {
   mixins: [BaseComponent],
-  name: "UploadImage",
+  name: 'UploadImage',
   components: {},
   props: {
     /**
@@ -36,14 +40,14 @@ export default {
     },
     size: {
       type: String,
-      default: "medium",
+      default: 'medium',
     },
     /**
      * 设置一个元素id。方便查找该元素，设置为截图目标元素
      */
     accept: {
       type: String,
-      default: "image",
+      default: 'image',
     },
     /**
      * 是否选择图片否自动上传
@@ -70,8 +74,8 @@ export default {
       options: null,
       onUploaded: null,
       templateData: {
-        name: "",
-        desc: "",
+        name: '',
+        desc: '',
       },
     };
   },
@@ -83,13 +87,13 @@ export default {
         isAddUploadFile: this.auto,
         filters: this.accept,
         callback: (src) => {
-          this.$emit("uploadSuccess", src);
-          typeof this.onUploaded === "function" && this.onUploaded(src);
+          this.$emit('uploadSuccess', src);
+          typeof this.onUploaded === 'function' && this.onUploaded(src);
         },
       });
     },
   },
-  beforeDestroy: function () {},
+  beforeDestroy: function () { },
   mounted: function () {
     this.uploadObject = new UploadImg({
       id: this.$el,
@@ -97,11 +101,11 @@ export default {
       isAddUploadFile: this.auto,
       filters: this.accept,
       callback: (src) => {
-        this.$emit("uploadSuccess", src);
-        typeof this.onUploaded === "function" && this.onUploaded(src);
+        this.$emit('uploadSuccess', src);
+        typeof this.onUploaded === 'function' && this.onUploaded(src);
       },
     });
-    this.ema.bind("saveTemplate", () => {
+    this.ema.bind('saveTemplate', () => {
       this.options = null;
       this.onUploaded = null;
       this.getImageDataByDom(
@@ -116,10 +120,10 @@ export default {
     /**
      * 获取图片数据进行上传
      */
-    upload: function (dom, options, callback) {
+    upload (dom, options, callback) {
       this.options = options || null;
       this.onUploaded = callback || null;
-      var fileName = this.options["fileName"];
+      var fileName = this.options['fileName'];
       dom = dom || document.querySelector(this.templateElement);
       this.getImageDataByDom(dom, (dataUrl) => {
         this.uploadImg(dataUrl, fileName);
@@ -129,22 +133,22 @@ export default {
      * 上传图片
      * @augments dataUrl String 图片的base64字符串
      */
-    uploadImg(dataUrl, fileName) {
-      let name = fileName || "ymm" + new Date().getTime() + ".png";
+    uploadImg (dataUrl, fileName) {
+      let name = fileName || 'ymm' + new Date().getTime() + '.png';
       let me = this;
       var files = new window.File(
-        [Util.getBlobBydataURI(dataUrl, "image/png")],
+        [Util.getBlobBydataURI(dataUrl, 'image/png')],
         name,
         {
-          type: "image/png",
+          type: 'image/png',
         }
       );
       me.uploadObject.uploader.addFile(files);
       me.uploadObject.send(name);
     },
-    getImageDataByDom(dom, callback) {
+    getImageDataByDom (dom, callback) {
       this.h2c.ignoreElements = function (element) {
-        if (element.hasAttribute("ignorehtml2canvas")) {
+        if (element.hasAttribute('ignorehtml2canvas')) {
           return true;
         } else {
           return false;

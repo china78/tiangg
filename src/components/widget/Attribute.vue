@@ -8,7 +8,7 @@
         @click.native="showUpdate = !showUpdate"
         type="warning"
         :closable="false"
-      ></el-alert>
+      />
       <div
         class="update"
         v-if="newVersion && showUpdate"
@@ -57,7 +57,7 @@
                     <a
                       class="iconfont icon-copy"
                       @click="copyId(id)"
-                    ></a>
+                    />
                   </el-tooltip>
                 </template>
               </el-input>
@@ -67,13 +67,13 @@
                   v-show="canEditId"
                   class="id-lock iconfont icon-unlock"
                   @click="canEditId = false"
-                ></a>
+                />
                 <a
                   title="禁用"
                   v-show="!canEditId"
                   class="id-lock iconfont icon-lock"
                   @click="canEditId = true"
-                ></a>
+                />
               </template>
             </el-form-item>
             <el-form-item label="名称">
@@ -87,7 +87,7 @@
                     content="组件当前版本"
                     placement="top"
                   >
-                    <a class="">v{{ selectNode.version }} </a>
+                    <a class="">v{{ selectNode.version }}</a>
                   </el-tooltip>
                 </template>
               </el-input>
@@ -97,7 +97,7 @@
                 key="1"
                 size="mini"
                 v-model="selectNode.visible"
-              ></el-switch>
+              />
             </el-form-item>
             <el-form-item v-show="!vm || vm.slots === false">
               <el-tooltip
@@ -105,10 +105,12 @@
                 content="控制子组件的位置排布方式"
                 placement="top"
               >
-                <span>布局模式 <i
+                <span>
+                  布局模式 <i
                     class="el-icon-info"
                     style="font-size: 12px"
-                  ></i></span>
+                  />
+                </span>
               </el-tooltip>
               <div>
                 <el-tooltip
@@ -116,12 +118,11 @@
                   content="子组件如楼层般依次向下扩展"
                   placement="top"
                 >
-                  <span :style="{
-                      color: !selectNode.stack ? '#faad14' : 'inherit',
-                    }"><i
+                  <span :style="{ color: !selectNode.stack ? '#faad14' : 'inherit'}">
+                    <i
                       style="font-size: 12px"
                       class="el-icon-info"
-                    ></i>楼层模式
+                    />楼层模式
                   </span>
                 </el-tooltip>
                 <el-switch
@@ -130,8 +131,7 @@
                   v-model="selectNode.stack"
                   active-color="#faad14"
                   inactive-color="#faad14"
-                >
-                </el-switch>
+                />
                 <el-tooltip
                   class="item"
                   content="子组件上下堆叠，位置可自由挪动"
@@ -141,7 +141,7 @@
                     自由模式<i
                       style="font-size: 12px"
                       class="el-icon-info"
-                    ></i></span>
+                    /></span>
                 </el-tooltip>
               </div>
             </el-form-item>
@@ -339,18 +339,18 @@
           <attr-event
             v-if="selectNode"
             :content.sync="selectNode.events"
-          ></attr-event>
+          />
         </el-collapse-item>
       </el-collapse>
     </div>
     <i
       v-show="!selectNode"
       class="iconfont icon-nodata nodata"
-    ></i>
+    />
     <div
       class="forbid-edit-mask"
       v-show="forbidEdit"
-    ></div>
+    />
   </div>
 </template>
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
@@ -495,7 +495,7 @@ export default {
     });
   },
   methods: {
-    onSelectOne: function (vm) {
+    onSelectOne (vm) {
       let id = vm.nodeInfo.id;
       this.selectNode = null;
       this.targetVm = vm.$refs[id];
@@ -528,7 +528,7 @@ export default {
           activeNames == attr)
       );
     },
-    checkNew: function ({ type = '' } = {}) {
+    checkNew ({ type = '' } = {}) {
       if (!type) return;
       if (type in VERSION_CACHE) {
         this.newNodeInfo = VERSION_CACHE[type];
@@ -579,7 +579,7 @@ export default {
     /**
      * id变化需要查询是否可以改变，
      */
-    idChange: function () {
+    idChange () {
       var canChange = false;
       if (!window.$_nodecomponents[this.id]) {
         canChange = true;
@@ -590,7 +590,7 @@ export default {
         this.id = this.selectNode.id;
       }
     },
-    dealPropsType: function () {
+    dealPropsType () {
       var instance = this.targetVm;
       this.propsInfo = [];
       function getPropType (prop) {
@@ -644,7 +644,7 @@ export default {
     /**
      * 组件更新
      */
-    updateComponent: function () {
+    updateComponent () {
       this.$confirm(
         '更新组件后，该组件设置的数据会丢失，确认更新该组件?',
         '提示',
@@ -653,20 +653,18 @@ export default {
           cancelButtonText: '取消',
           type: 'warning',
         }
-      )
-        .then(() => {
-          // 调用目标对象的更新组件版本方法
-          if (this.selectNode && this.newNodeInfo) {
-            this.selectNode.path = this.newNodeInfo.path;
-            this.selectNode.version = this.newNodeInfo.version;
-          }
-        })
-        .catch(() => {
-          this.$message({
-            type: 'warning',
-            message: '已取消',
-          });
+      ).then(() => {
+        // 调用目标对象的更新组件版本方法
+        if (this.selectNode && this.newNodeInfo) {
+          this.selectNode.path = this.newNodeInfo.path;
+          this.selectNode.version = this.newNodeInfo.version;
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'warning',
+          message: '已取消',
         });
+      });
     },
   },
 };

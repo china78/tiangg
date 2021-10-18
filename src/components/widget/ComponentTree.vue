@@ -15,12 +15,12 @@
           style="color:#999;cursor: pointer;"
           slot="suffix"
           @click="filterText = ''"
-        ></i>
+        />
         <el-button
           slot="append"
           @click.stop="search(true)"
           icon="el-icon-search"
-        ></el-button>
+        />
       </el-input>
     </div>
     <el-tree
@@ -55,11 +55,11 @@
           <i
             v-show='rootNode.id !== data.id && data.packed'
             class='iconfont icon-pack'
-          ></i>
+          />
           <i
             v-show='data.script && data.script.length > 0'
             class='iconfont icon-function'
-          ></i>
+          />
           {{data.label || data.id}}
         </span>
         <input
@@ -80,7 +80,7 @@
               <a
                 class="iconfont icon-save-black"
                 @click="saveName(node, data)"
-              ></a>
+              />
             </el-tooltip>
             <el-tooltip
               content="取消"
@@ -90,7 +90,7 @@
               <a
                 class="iconfont icon-close-black"
                 @click="notSaveName(node, data)"
-              ></a>
+              />
             </el-tooltip>
           </template>
           <template v-if="!data.renaming">
@@ -102,7 +102,7 @@
               <a
                 class="iconfont icon-rename-box"
                 @click.stop="rename(node, data)"
-              ></a>
+              />
             </el-tooltip>
             <el-tooltip
               content="复制"
@@ -112,7 +112,7 @@
               <a
                 class="iconfont icon-copy"
                 @click.stop="copy(node, data)"
-              ></a>
+              />
             </el-tooltip>
             <el-tooltip
               content="复制id"
@@ -122,7 +122,7 @@
               <a
                 class="iconfont icon-id-black"
                 @click.stop="copyId(node, data)"
-              ></a>
+              />
             </el-tooltip>
             <el-tooltip
               content="移除"
@@ -132,7 +132,7 @@
               <a
                 class="iconfont icon-delete"
                 @click.stop="remove(node, data)"
-              ></a>
+              />
             </el-tooltip>
             <el-tooltip
               content="加锁"
@@ -143,7 +143,7 @@
               <a
                 class="id-lock iconfont icon-unlock"
                 @click.stop="lock(node, data,true)"
-              ></a>
+              />
             </el-tooltip>
             <el-tooltip
               content="解锁"
@@ -154,7 +154,7 @@
               <a
                 class="id-lock iconfont icon-lock"
                 @click.stop="lock(node, data,false)"
-              ></a>
+              />
             </el-tooltip>
           </template>
         </span>
@@ -284,10 +284,10 @@ export default {
     getComponentById (id) {
       return window.$_nodecomponents && window.$_nodecomponents[id];
     },
-    bgClick: function () {
+    bgClick () {
       this.ema.fire('hide.contextMenu');
     },
-    lock: function (node, data, flag) {
+    lock (node, data, flag) {
       this.ema.fire('lock.node', data.id, flag);
     },
     tooglePacked (data) {
@@ -391,7 +391,6 @@ export default {
       // color: #606266;
       font-weight lighter
   .el-tree-node__content
-    .el-tree-node__expand-icon
-    .el-tree-node__expand-icon.is-leaf
+    .el-tree-node__expand-icon, .el-tree-node__expand-icon.is-leaf
       color transparent
 </style>

@@ -19,23 +19,23 @@
           <el-option
             label="全部"
             :value="1"
-          ></el-option>
+          />
           <el-option
             label="自建"
             :value="2"
-          ></el-option>
+          />
         </el-select>
         <i
           class="el-icon-close el-input__icon"
           style="color:#999;cursor: pointer;"
           slot="suffix"
           @click="searchKey = ''"
-        ></i>
+        />
         <el-button
           slot="append"
           @click.stop="search()"
           icon="el-icon-search"
-        ></el-button>
+        />
       </el-input>
       <el-dropdown
         class="component-menu"
@@ -44,7 +44,7 @@
         <i
           style="font-size: 20px;"
           class="iconfont icon-point-menu"
-        ></i>
+        />
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="list">列表</el-dropdown-item>
           <el-dropdown-item command="card">卡片</el-dropdown-item>
@@ -53,7 +53,7 @@
       <assets-tags
         @selectchange="onTagSelect"
         :assets-id="categoryId"
-      ></assets-tags>
+      />
     </div>
     <div
       class="components"
@@ -86,7 +86,6 @@
           </p>
         </div>
       </div>
-
       <a
         @click="goShop"
         class="addComponent"
@@ -252,7 +251,6 @@ export default {
   mixins: [BaseComponent],
   name: 'Components',
   components: { AssetsTags },
-
   props: {
   },
   filters: {
@@ -307,7 +305,7 @@ export default {
       this.selectedTags = tags;
       this.search();
     },
-    dragstart: function (ev, menu) {
+    dragstart (ev, menu) {
       ev.dataTransfer.effectAllowed = 'move';
       ev.dataTransfer.setData('componentInfo', JSON.stringify(menu));
       ev.dataTransfer.setData('dragPos', JSON.stringify({
@@ -317,7 +315,7 @@ export default {
       ev.dataTransfer.setDragImage(ev.target, ev.offsetX, ev.offsetY);
       return true;
     },
-    addOne: function (menu) {
+    addOne (menu) {
       this.ema.fire('commponent.addOne', menu);
       this.ema.fire('dock.panelActive', 'widgetScene');
     },

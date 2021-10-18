@@ -76,12 +76,6 @@
                 "component": "widgetScene",
                 "close": false,
                 "pop": false
-              },
-              {
-                "name": "商城",
-                "component": "widgetShop",
-                "close": true,
-                "pop": true
               }
             ],
             "type": "panel",

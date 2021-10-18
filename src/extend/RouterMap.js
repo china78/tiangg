@@ -1,5 +1,5 @@
-import Page from '../components/client/Page'
-let config = require('../config/index')
+import Page from '../components/client/Page';
+let config = require('../config/index');
 
 var routerMap = {
   mode: 'history',
@@ -14,5 +14,5 @@ var routerMap = {
       component: Page
     }
   ]
-}
-export default routerMap
+};
+export default routerMap;

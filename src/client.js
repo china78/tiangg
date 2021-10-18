@@ -36,14 +36,14 @@ const app = window.app = new Vue({ // eslint-disable-line
   render: h => h(App)
 });
 
-function startApp() {
+function startApp () {
   if (startApp.started) return;
   startApp.started = true;
   mount();
 
-  function mount() {
+  function mount () {
     Object.defineProperty(window, 'EventHub', {
-      get() { return window.app; }
+      get () { return window.app; }
     });
     app.$mount('#app');
     window.addEventListener('pagehide', trackPVTime);
@@ -53,7 +53,7 @@ function startApp() {
 }
 startApp();
 
-function trackPVTime(from) {
+function trackPVTime (from) {
   if (trackPVTime.called) return;
   console.log(from);
   var end = Date.now();
@@ -65,7 +65,7 @@ function trackPVTime(from) {
   trackPVTime.called = 1;
 }
 
-function sendPVTime() {
+function sendPVTime () {
   if (process.env.NODE_ENV !== 'production') return;
   var ML_VIEW_TIME = (window.localStorage.getItem('ML_VIEW_TIME') || '').split('|');
   if (ML_VIEW_TIME && ML_VIEW_TIME.length == 2) {

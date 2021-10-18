@@ -118,9 +118,7 @@
   max-height 100%
 .ui-dock-panel:focus
   outline none
-.ui-dock-panel:focus .border-card
-.ui-dock-panel:focus .is-active .tab-label
-.ui-dock-panel
+.ui-dock-panel:focus .border-card, .ui-dock-panel:focus .is-active .tab-label, .ui-dock-panel
   display flex
   flex-direction column
   flex-wrap nowrap

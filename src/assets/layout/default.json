@@ -62,12 +62,6 @@
                 "component": "widgetPageInfo",
                 "close": true,
                 "pop": true
-              },
-              {
-                "name": "商城",
-                "component": "widgetShop",
-                "close": true,
-                "pop": true
               }
             ],
             "type": "panel",

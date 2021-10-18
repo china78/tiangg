@@ -49,6 +49,7 @@ function loadJs (url = '') {
   });
 
   function _loadjs (url, fn, fail) {
+    console.log(window);
     var script = document.createElement('script');
     script.src = url;
     script.async = true;

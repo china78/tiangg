@@ -1,11 +1,11 @@
-import mixin from './mixin'
+import mixin from './mixin';
 
 var Maliang = {
   mixin
-}
+};
 
 export {
   mixin
-}
+};
 
-export default Maliang
+export default Maliang;

@@ -12,7 +12,7 @@ import clientlib from './extend/client/';
 import { fetch } from './extend/fetch';
 import Util from './extend/Util';
 
-function empty() { }
+function empty () { }
 
 if (process.env.NODE_ENV === 'development') {
   window.Vue = Vue;
@@ -40,7 +40,7 @@ Vue.prototype.$reactiveSet = function (context, map) {
   }
 };
 // 集中移除追踪
-Vue.prototype.$reactiveDelete = function reactiveDelete(context, keys) {
+Vue.prototype.$reactiveDelete = function reactiveDelete (context, keys) {
   for (let key of keys) {
     this.$delete(context, key);
   }
@@ -75,7 +75,7 @@ monaco.languages.registerCompletionItemProvider('javascript', {
   }
 });
 // 本地存储清理
-(function clearStorage() {
+(function clearStorage () {
   const storageKeys = Object.keys(localStorage).filter(k => /EditorautoSave/.test(k));
   const maxsize = 10;
   const kyesToClear = storageKeys.length > maxsize ? storageKeys.slice(maxsize - storageKeys.length) : [];

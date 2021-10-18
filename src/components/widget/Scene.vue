@@ -228,7 +228,7 @@ export default {
       immediate: true
     }
   },
-  data: function () {
+  data () {
     return {
       info: window.Editor.nodeInfo,
       packedNodeStack: [],
@@ -245,11 +245,11 @@ export default {
       },
     };
   },
-  beforeCreate: function () {
+  beforeCreate () {
   },
-  created: function () {
+  created () {
   },
-  mounted: function () {
+  mounted () {
     this.selectNode = window.$vue && window.$vue.nodeInfo;
     this.selectNodeStacked = window.$vue && window.$vue.stacked;
 
@@ -337,23 +337,23 @@ export default {
     /**
      * 背景点击，处理选中内容
      */
-    bgClick: function () {
+    bgClick () {
       this.ema.fire('hide.contextMenu');
       this.ema.fire('select.noOne');
     },
-    mouseup: function (ev) {
+    mouseup (ev) {
       this.ema.fire('ui.mouseup', ev);
     },
-    mousemove: function (ev) {
+    mousemove (ev) {
       this.ema.fire('ui.mousemove', ev);
     },
-    dragenter: function (ev) {
+    dragenter (ev) {
       ev.stopPropagation();
     },
-    dragover: function (ev) {
+    dragover (ev) {
       ev.preventDefault();
     },
-    deleteNode: function (id) {
+    deleteNode (id) {
       var node = null;
       var parent = null;
       var key = 0;
@@ -379,7 +379,7 @@ export default {
       this.$delete(parent, key);
       return node;
     },
-    bindMove: function () {
+    bindMove () {
       this.ema.bind('move.node', (moveId, targetNode, pos) => {
         console.log('move.node is coming', this.info);
         var moveNode = cloneDeep(this.deleteNode(moveId));
@@ -392,7 +392,7 @@ export default {
         }
       });
     },
-    lockNode: function (id, flag) {
+    lockNode (id, flag) {
       var self = this;
       var node = null;
       var parent = null;
@@ -429,7 +429,7 @@ export default {
       walk([this.info]);
       console.log(key, parent);
     },
-    bindLock: function () {
+    bindLock () {
       this.ema.bind('lock.node', (moveId, flag) => {
         console.log('lock.node is coming', this.info);
         this.lockNode(moveId, flag);

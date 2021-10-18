@@ -8,7 +8,7 @@
     <main-dock
       :info="info.layout"
       :level="10"
-    ></main-dock>
+    />
     <dialogone
       v-for="(item, key) in info.dialogs"
       :key="(item.component || 'main') + key"
@@ -18,18 +18,18 @@
         v-if="item && item.children"
         :info="item"
         :level="11"
-      ></main-dock>
+      />
     </dialogone>
     <dialogone
       v-for="(item, key) in onedialogs"
       :key="item.component + key"
       :info="item"
-    ></dialogone>
+    />
     <div
       class="dock-mask dock"
       :style="maskStyle"
       v-if="showMask"
-    ></div>
+    />
   </div>
 </template>
 <style lang="stylus" rel="stylesheet/stylus" scoped type="text/stylus">

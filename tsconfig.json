@@ -32,12 +32,16 @@
     "baseUrl": ".",
     // Relative to "baseUrl"
     "paths": {
-      "src/*": ["./src/*"],
+      "src/*": [
+        "./src/*"
+      ],
     }
   },
-  "plugins": [{
-    "name": "tslint-language-service"
-  }],
+  "plugins": [
+    {
+      "name": "tslint-language-service"
+    }
+  ],
   "include": [
     "src/components/code/**/*"
   ],

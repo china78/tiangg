@@ -22,6 +22,8 @@ export default {
       request = this.requestCache[C_KEY];
     }
     return await request.then(s => {
+      // debugger;
+      // window.2711/input@1.0.2index
       component = window[C_KEY + 'index'] || window[C_KEY] || window[C_KEY.replace('@', '')];
       this.componentCache[C_KEY] = component = component.default || component;
       return component;
