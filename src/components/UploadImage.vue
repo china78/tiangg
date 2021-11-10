@@ -1,10 +1,5 @@
 <template>
-  <el-button
-    :size="size"
-    id="virtualUpload"
-    v-show="showBtn"
-    type="primary"
-  >上传
+  <el-button :size="size" id="virtualUpload" v-show="showBtn" type="primary">上传
     <i class="el-icon-upload el-icon--right" />
   </el-button>
 </template>

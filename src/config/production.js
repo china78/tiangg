@@ -11,4 +11,34 @@
 */
 
 module.exports = {
+  API_PATH: 'http://abc.com/api' // 配置为实际 nodejs api 服务外网可访问的路径
 };
+
+// nginx配置文件示例
+// server {
+//   listen 80;
+//   server_name abc.com; # 您的实际 ip 或者域名
+//   root /usr/share/nginx/html; # 静态资源文件存放路径
+
+//   # gzip
+//   gzip on;
+//   gzip_min_length 256;
+//   gzip_vary on;
+//   gzip_types *;
+
+//   # 所有静态资源及缓存
+//   location ~* .*\.(jpg|gif|jpeg|css|png|js|wasm) {
+//     expires 10d;
+//   }
+
+//   # view路径，即渲染器，需要开启 history 模式
+//   location ~* ^\/view\/[a-zA-Z0-9]+(\/|\?.*|)$ {
+//     index index.html;
+//     try_files $uri $uri/ /view/index.html;
+//   }
+
+//   # api 反向代理
+//   location ^~ /api {
+//     proxy_pass http://127.0.0.1:7051;
+//   }
+// }

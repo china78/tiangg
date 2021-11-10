@@ -2,6 +2,8 @@ import Vue from 'vue';
 import App from './Client.vue';
 import VueRouter from 'vue-router';
 import FastClick from 'FastClick';
+import ElementUI from 'element-ui';
+import './assets/style/element-variables.scss';
 import './assets/js/date';
 import routes from './extend/RouterMap';
 import ESlog from './extend/ESlog';
@@ -9,6 +11,8 @@ import clientlib from './extend/client/';
 import { fetch } from './extend/fetch';
 import Util from './extend/Util';
 let config = require('./config/index');
+
+Vue.use(ElementUI);
 
 window.Truck = window.$GP = {
   Util,

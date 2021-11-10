@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-function parseURL(url) {
+function parseURL (url) {
   var a = window.document.createElement('a')
   a.href = url
   return {
@@ -32,7 +32,7 @@ function parseURL(url) {
   }
 }
 
-function objectSetByPath(obj = {}, path = '', val) {
+function objectSetByPath (obj = {}, path = '', val) {
   path = path.split('.')
   let key = path.pop()
   let preObj = obj
@@ -49,7 +49,7 @@ function objectSetByPath(obj = {}, path = '', val) {
   return obj
 }
 
-function objectGetByPath(obj = {}, path = '') {
+function objectGetByPath (obj = {}, path = '') {
   var val
   try {
     val = path.split('.').reduce((a, b) => a && a[b], obj)
@@ -59,10 +59,10 @@ function objectGetByPath(obj = {}, path = '') {
   return val
 }
 
-function modifyNodeId(tree, idCache = [], exclude = [], key = 'id', childKey = 'child') {
+function modifyNodeId (tree, idCache = [], exclude = [], key = 'id', childKey = 'child') {
   var localIdCache = []
 
-  function random(node) {
+  function random (node) {
     var child = node[childKey]
     if (child && child.length) {
       child = child.map(child => random(child))
@@ -75,11 +75,11 @@ function modifyNodeId(tree, idCache = [], exclude = [], key = 'id', childKey = '
     return node
   }
 
-  function isInclude(arr, el) {
+  function isInclude (arr, el) {
     return arr.indexOf(el) > -1
   }
 
-  function genKey(base) {
+  function genKey (base) {
     var key
     while (!(key && !isInclude(localIdCache, key))) {
       key = `${base || ''}${(Math.random() * 1296 | 0).toString(36).padStart(2, '0')}` // 两位36进制数
@@ -93,7 +93,7 @@ function modifyNodeId(tree, idCache = [], exclude = [], key = 'id', childKey = '
  * 获取Dom节点相对于页面的位置 TOP LEFT
  * @param {DOM}} node 
  */
-function getNodePosition(node) {
+function getNodePosition (node) {
   var pos = node.getBoundingClientRect()
   //变换简单处理，计算一个元素在旋转之前相对根节点的top left
   var centerPoint = {
@@ -109,7 +109,7 @@ function getNodePosition(node) {
  * 获取一个元素在忽略旋转后的相对页面的位置信息
  * @param {DOM}} el 
  */
-function getNoRotateBoundingClientRect(el) {
+function getNoRotateBoundingClientRect (el) {
   let innerWidth = window.innerWidth
   let innerHeight = window.innerHeight
   let topAndLeft = getNodePosition(el)
@@ -140,7 +140,7 @@ function getNoRotateBoundingClientRect(el) {
  * @param {DOM} el 
  * @param {DOM} parent 
  */
-function dimensionAnyTopx(el, parent) {
+function dimensionAnyTopx (el, parent) {
   if (!el || !parent) {
     return {
       width: 0,
@@ -194,11 +194,11 @@ function dimensionAnyTopx(el, parent) {
   return dimension
 }
 
-function isUnset(val) {
+function isUnset (val) {
   return val === 'unset' || val === 'initial' || isNaN(parseFloat(val)) || isNullOrUndefined(val)
 }
 
-function calcRelativePos(el, parent) {
+function calcRelativePos (el, parent) {
   var style = window.getComputedStyle(el)
   var parentSize = parent.getBoundingClientRect()
   var pos = {
@@ -215,7 +215,7 @@ function calcRelativePos(el, parent) {
   }
   return pos
 
-  function toPx(val, bounding) {
+  function toPx (val, bounding) {
     bounding = parseInt(bounding)
     if (val == 'auto' || !val) return 0
     if (/%$/.test(val)) return (bounding * parseFloat(val) / 100) | 0
@@ -223,7 +223,7 @@ function calcRelativePos(el, parent) {
   }
 }
 
-function getMargins(el) {
+function getMargins (el) {
   return ['marginTop', 'marginRight', 'marginBottom', 'marginLeft'].reduce((o, v) => {
     var val = window.getComputedStyle(el)[v]
     o[v] = parseFloat(val) || 0
@@ -231,23 +231,23 @@ function getMargins(el) {
   }, {})
 }
 
-function isNullOrUndefined(arg) {
+function isNullOrUndefined (arg) {
   return arg === null || arg === undefined
 }
 
-function isFalsy(arg) {
+function isFalsy (arg) {
   return isNullOrUndefined(arg) || arg === ''
 }
 
-function toSafeNumber(a, e = Number.MAX_VALUE) {
+function toSafeNumber (a, e = Number.MAX_VALUE) {
   return a === 0 || a === '0' ? 0 : !a || isNaN(Number(a)) ? e : Number(a)
 }
 
-function sleep(ts) {
+function sleep (ts) {
   return new Promise(resolve => setTimeout(resolve, ts))
 }
 
-function fetch(url, {
+function fetch (url, {
   method = 'get'
 } = {}) {
   return new Promise((resolve, reject) => {
@@ -268,7 +268,7 @@ function fetch(url, {
   })
 }
 
-function componentAddJudge(node, nodevm) {
+function componentAddJudge (node, nodevm) {
   if (!node) return false
   if (node.leaf) {
     return {
@@ -283,7 +283,7 @@ function componentAddJudge(node, nodevm) {
       msg: `当前选中节点最多可添加${node.childLimit}个子组件，已达限额`
     }
   }
-  
+
   if (nodevm.packed || nodevm.packedChild) {
     return {
       can: false,
@@ -303,13 +303,13 @@ function confirmWithGoodbye (msg, goodbyeKey) {
     <div style='position: absolute;left: 14px;bottom: 0;transform: translateY(42px);font-size: 12px;'>
       不再提醒 <input type="checkbox" onchange="javascript: var val = event.target.checked; localStorage.setItem('${goodbyeKey}', val ? 1 : '')"/>
     </div>`,
-  {dangerouslyUseHTMLString: true})
+    { dangerouslyUseHTMLString: true })
 }
 
 function trbl (str = '', key = '') {
   key = key === '' ? key : key + '-'
   const arr = String(str).trim().split(/\s+/)
-  const [top, right, bottom, left] = arr.concat({1:[arr[0], arr[0], arr[0]], 2: [arr[0], arr[1]], 3: [arr[1]], 4: []}[arr.length] || [])
+  const [top, right, bottom, left] = arr.concat({ 1: [arr[0], arr[0], arr[0]], 2: [arr[0], arr[1]], 3: [arr[1]], 4: [] }[arr.length] || [])
   return {
     [key + 'top']: top,
     [key + 'right']: right,

@@ -1,31 +1,15 @@
 <template>
-  <div
-    class="editorWarp"
-    @contextmenu.prevent.stop=""
-  >
+  <div class="editorWarp" @contextmenu.prevent.stop="">
     <my-header :layout-data="layoutData" />
-    <ui-dock
-      v-if="nodeInfo && layoutData"
-      :info="layoutData"
-    />
+    <ui-dock v-if="nodeInfo && layoutData" :info="layoutData" />
     <div class="footer">
       <Tips />
     </div>
     <context-menu />
     <!-- 弹出框 -->
     <c-dialogs />
-    <div
-      :data-clipboard-text="clipboardContent"
-      style="width: 0; height: 0"
-      ref="clipboard"
-    />
-    <upload-image
-      :h2c="{ scale: 1 }"
-      skip-size-check
-      ref="screenshot"
-      :key="screenshotKey"
-      v-if="screenshotKey != null"
-    />
+    <div :data-clipboard-text="clipboardContent" style="width: 0; height: 0" ref="clipboard" />
+    <upload-image :h2c="{ scale: 1 }" skip-size-check ref="screenshot" :key="screenshotKey" v-if="screenshotKey != null" />
     <Bughd />
   </div>
 </template>
